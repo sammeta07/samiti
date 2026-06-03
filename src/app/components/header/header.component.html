@@ -1,11 +1,19 @@
-<header class="samiti-header">
+<mat-toolbar class="samiti-header" role="banner">
   <div class="brand">
-    <span class="logo">SAMITI</span>
+    <span class="logo">S<span class="accent">AM</span>ITI</span>
     <span class="tagline">Digital Group Management</span>
   </div>
 
+  <span class="spacer"></span>
+
   <div class="actions">
-    <button type="button">REGISTER</button>
-    <button type="button">LOGIN</button>
+    <button class="btn-outline" type="button">
+      <mat-icon aria-hidden="true">person_add</mat-icon>
+      Register
+    </button>
+    <button class="btn-accent" type="button">
+      <mat-icon aria-hidden="true">login</mat-icon>
+      Login
+    </button>
   </div>
-</header>
+</mat-toolbar>

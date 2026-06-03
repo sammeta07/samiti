@@ -14,7 +14,7 @@ html {
         tertiary: mat.$blue-palette,
       ),
       typography: Roboto,
-      density: 0,
+      density: -3,
     )
   );
 }
@@ -36,4 +36,28 @@ body {
   margin: 0;
   height: 100%;
 }
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --clr-navy:         #1E293B;   /* header / footer bg          */
+  --clr-navy-light:   #2D3E55;   /* hover state inside navy     */
+  --clr-accent:       #F97316;   /* saffron-orange CTA          */
+  --clr-accent-hover: #EA6C0A;   /* darker accent on hover      */
+  --clr-surface:      #F1F5F9;   /* main content background     */
+  --clr-card:         #FFFFFF;   /* card / panel background     */
+  --clr-border:       #E2E8F0;   /* subtle borders              */
+  --clr-text-dark:    #1E293B;   /* primary text                */
+  --clr-text-muted:   #64748B;   /* secondary / caption text    */
+  --clr-text-light:   #94A3B8;   /* placeholder / hint text     */
+  --clr-white:        #FFFFFF;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+}
+
+/* ─── Global Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
 /* You can add global styles to this file, and also import other style files */
