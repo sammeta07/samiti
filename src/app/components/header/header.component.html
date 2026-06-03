@@ -6,6 +6,26 @@
 
   <span class="spacer"></span>
 
+  <!-- Location chip -->
+  <button
+    class="location-btn"
+    type="button"
+    [class.loading]="!userLocationCords()"
+    [matTooltip]="userLocationCords() ? 'Your current location' : 'Detecting location…'"
+    matTooltipPosition="below"
+    (click)="retryLocation()"
+    aria-live="polite"
+    [attr.aria-label]="userLocationName() || 'Detecting location'"
+  >
+    <mat-icon [class.spin]="!userLocationCords()">
+      {{ userLocationCords() ? 'my_location' : 'autorenew' }}
+    </mat-icon>
+    <span class="location-text">
+      {{ userLocationName() || 'Locating…' }}
+    </span>
+  </button>
+
+  <!-- Auth actions -->
   <div class="actions">
     <button class="btn-outline" type="button">
       <mat-icon aria-hidden="true">person_add</mat-icon>
