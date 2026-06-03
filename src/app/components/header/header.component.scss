@@ -144,108 +144,30 @@
   }
 }
 
-/* ── Divider ── */
-.pill-divider {
-  flex-shrink: 0;
-  width: 1px;
-  height: 18px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(249, 115, 22, 0.45) 40%,
-    rgba(249, 115, 22, 0.45) 60%,
-    transparent 100%
-  );
-}
-
-/* ── Right: distance km selector ── */
-.pill-right {
-  display: flex;
-  align-items: center;
-  padding: 0 6px 0 4px;
-}
-
-.km-field {
-  width: 106px;
-
-  // Radar prefix icon
-  ::ng-deep .mat-mdc-form-field-icon-prefix {
-    display: flex;
-    align-items: center;
-    padding: 0 2px 0 6px;
-
-    mat-icon {
-      font-size: 15px;
-      width: 15px;
-      height: 15px;
-      color: rgba(249, 115, 22, 0.65);   // saffron tint
-    }
-  }
-
-  // Erase ALL Material outline chrome
-  ::ng-deep .mdc-notched-outline__leading,
-  ::ng-deep .mdc-notched-outline__notch,
-  ::ng-deep .mdc-notched-outline__trailing {
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  ::ng-deep .mat-mdc-text-field-wrapper,
-  ::ng-deep .mdc-text-field,
-  ::ng-deep .mat-mdc-form-field-focus-overlay {
-    background: transparent !important;
-    padding: 0 !important;
-  }
-
-  ::ng-deep .mat-mdc-form-field-infix {
-    min-height: unset;
-    padding: 0;
-    width: auto;
-  }
-
-  ::ng-deep .mat-mdc-select-trigger {
-    display: flex;
-    align-items: center;
-    height: 38px;
-  }
-
-  ::ng-deep .mat-mdc-select-value {
-    color: rgba(255, 255, 255, 0.80);
-    font-size: 0.80rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-
-  ::ng-deep .mat-mdc-select-arrow-wrapper {
-    height: auto;
-    transform: none;
-  }
-
-  ::ng-deep .mat-mdc-select-arrow {
-    color: rgba(249, 115, 22, 0.70);   // saffron accent arrow
-    border-left-width: 4px;
-    border-right-width: 4px;
-    border-top-width: 4px;
-  }
-}
-
 /* ── Location Chip ── */
 .location-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   margin-right: 1rem;
-  padding: 0.35rem 0.9rem;
+  padding: 0 0.9rem;
+
+  /* Fixed dimensions — prevents the pill from resizing when text
+     switches between "Locating…" and the actual location name,
+     which would otherwise push the centered search bar sideways. */
+  width: 168px;
+  height: 34px;
+  flex-shrink: 0;
+
   border: 1.5px solid rgba(255, 255, 255, 0.18);
-  border-radius: 999px;          // pill shape
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
   color: var(--clr-white);
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
-  white-space: nowrap;
-  max-width: 220px;
+  overflow: hidden;             // clip oversized content cleanly
 
   &:hover {
     background: rgba(255, 255, 255, 0.14);
@@ -270,8 +192,11 @@
 }
 
 .location-text {
+  flex: 1;
+  min-width: 0;                 // lets flex child shrink below its content width
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @keyframes spin {

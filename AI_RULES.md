@@ -29,6 +29,9 @@ ese update karna hai agar jarurat ho to
 entire app me angular material design k components ko use karna hai
 https://material.angular.dev/components/categories
 
-## 4
+## 
 I want to density property in my entire app read- 
 https://www.google.com/search?q=density+in+amgular+material&oq=density+in+amgular+material&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yDQgCEAAYhgMYgAQYigUyDQgDEAAYhgMYgAQYigUyDQgEEAAYhgMYgAQYigXSAQg2NDIwajBqN6gCCLACAfEFhEqrs_eOS0Q&sourceid=chrome&ie=UTF-8&zx=1780461335660
+
+## 5 
+never write inline styles

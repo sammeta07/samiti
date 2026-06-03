@@ -1,12 +1,11 @@
-import { Component, inject, signal, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { LocationService } from '../../shared/location.service';
+import { SearchService } from '../../shared/search.service';
 
 @Component({
   selector: 'app-header',
@@ -17,40 +16,34 @@ import { LocationService } from '../../shared/location.service';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    MatSelectModule,
-    MatFormFieldModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   private locationService = inject(LocationService);
+  private searchService   = inject(SearchService);
 
   @ViewChild('pillInput') pillInput!: ElementRef<HTMLInputElement>;
 
+  // Location state
   userLocationName  = this.locationService.userLocationName$;
   userLocationCords = this.locationService.userLocationCords$;
 
-  searchQuery      = signal('');
-  selectedDistance = signal(5);
-  isSearchFocused  = false;
-
-  readonly distanceOptions = [1, 2, 3, 5, 10, 20, 50];
+  // Search state — backed by global SearchService
+  searchQuery     = this.searchService.query;
+  isSearchFocused = false;
 
   retryLocation(): void {
     this.locationService.detectLocation();
   }
 
   onSearch(event: Event): void {
-    this.searchQuery.set((event.target as HTMLInputElement).value);
+    this.searchService.setQuery((event.target as HTMLInputElement).value);
   }
 
   clearSearch(): void {
-    this.searchQuery.set('');
+    this.searchService.setQuery('');
     this.pillInput?.nativeElement.focus();
-  }
-
-  onDistanceChange(km: number): void {
-    this.selectedDistance.set(km);
   }
 }

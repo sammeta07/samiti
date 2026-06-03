@@ -8,17 +8,15 @@
 
   <!-- Global Search Pill -->
   <div class="search-pill" role="search" aria-label="Search" [class.pill-active]="isSearchFocused">
-
-    <!-- Search input side -->
     <div class="pill-left">
       <mat-icon class="pill-search-icon" aria-hidden="true">search</mat-icon>
       <input
         #pillInput
         class="pill-input"
         type="text"
-        placeholder="Search groups, events, programs…"
+        placeholder="Group ID / Event ID / Program ID"
         autocomplete="off"
-        aria-label="Search groups, events and programs"
+        aria-label="Enter Group ID, Event ID or Program ID"
         [value]="searchQuery()"
         (input)="onSearch($event)"
         (focus)="isSearchFocused = true"
@@ -30,28 +28,6 @@
         </button>
       }
     </div>
-
-    <!-- Divider -->
-    <span class="pill-divider" aria-hidden="true"></span>
-
-    <!-- Distance selector side -->
-    <div class="pill-right">
-      <mat-form-field class="km-field" appearance="outline" subscriptSizing="dynamic">
-        <mat-icon matPrefix aria-hidden="true">radar</mat-icon>
-        <mat-select
-          [value]="selectedDistance()"
-          (selectionChange)="onDistanceChange($event.value)"
-          aria-label="Search radius"
-          disableRipple
-          panelClass="km-panel"
-        >
-          @for (km of distanceOptions; track km) {
-            <mat-option [value]="km">{{ km }} km</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-
   </div>
 
   <span class="spacer"></span>

@@ -1,29 +1,260 @@
-<section class="home-hero">
-  <div class="hero-content">
-    <p class="hero-eyebrow">Welcome to</p>
-    <h1 class="hero-title">S<span class="accent">AM</span>ITI</h1>
-    <p class="hero-subtitle">Digital Group Management — discover groups, events &amp; programs near you.</p>
-    <div class="hero-actions">
-      <button class="btn-primary" type="button">Explore Groups</button>
-      <button class="btn-ghost" type="button">Learn More</button>
-    </div>
-  </div>
+<div class="home-page">
 
-  <div class="home-cards">
-    <div class="info-card">
-      <span class="card-icon">🏘️</span>
-      <h3>Groups</h3>
-      <p>Find samiti groups active in your area.</p>
-    </div>
-    <div class="info-card">
-      <span class="card-icon">📅</span>
-      <h3>Events</h3>
-      <p>Browse upcoming and live events.</p>
-    </div>
-    <div class="info-card">
-      <span class="card-icon">🎉</span>
-      <h3>Programs</h3>
-      <p>Bhandara, cultural, spiritual &amp; more.</p>
-    </div>
+  <!-- component styles live in home.component.scss per project rules -->
+
+  <!-- ══════════════════════════════════════════════════
+       Two-column body
+       ══════════════════════════════════════════════════ -->
+  <div class="home-body">
+
+    <!-- ── LEFT  75%  ─  Groups ─────────────────────── -->
+    <section class="groups-col" aria-label="Groups">
+
+      <!-- Fixed search bar — title + pill, never scrolls -->
+      <div class="col-search-bar">
+        <div class="col-header-row">
+          <div class="col-title-group">
+            <mat-icon class="col-icon">group</mat-icon>
+            <h2 class="col-title">Groups</h2>
+            <span class="col-count">{{ filteredGroups().length }}</span>
+          </div>
+          <!-- search pill placed at the right end of the left header -->
+          <div class="section-search-pill">
+            <mat-icon class="ssp-icon">search</mat-icon>
+            <input class="ssp-input" type="text" placeholder="Search groups…" />
+            <span class="ssp-divider"></span>
+            <mat-icon class="ssp-km-icon">radar</mat-icon>
+            <select class="ssp-select">
+              <option value="2">2 km</option>
+              <option value="5" selected>5 km</option>
+              <option value="10">10 km</option>
+              <option value="25">25 km</option>
+              <option value="50">50 km</option>
+            </select>
+          </div>
+        
+        </div>
+      </div>
+
+      <!-- Tab group: All / Favourites -->
+      <mat-tab-group class="groups-tabs" animationDuration="200ms">
+
+        <!-- ── Tab 1: All ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>groups</mat-icon>
+            <span>All</span>
+            <span class="tab-badge">{{ filteredGroups().length }}</span>
+          </ng-template>
+
+          <div class="groups-scroll">
+
+            @if (searchService.hasActiveFilter()) {
+              <p class="col-filter-note">
+                <mat-icon>filter_list</mat-icon>
+                Filtered · within {{ searchService.distanceKm() }}&thinsp;km
+                @if (searchService.query().trim()) {
+                  · &ldquo;{{ searchService.query() }}&rdquo;
+                }
+              </p>
+            }
+
+            <mat-accordion [multi]="true" class="groups-accordion">
+
+              @for (group of filteredGroups(); track group.id) {
+                <mat-expansion-panel #panel class="group-panel" hideToggle>
+
+                  <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
+                    <mat-panel-title class="panel-title">
+                      <span class="panel-emoji">{{ group.icon }}</span>
+                      <span class="panel-name">{{ group.name }}</span>
+                    </mat-panel-title>
+
+                    <mat-panel-description class="panel-desc-row">
+                      <span class="panel-location">
+                        <mat-icon>place</mat-icon>
+                        {{ group.location }}
+                      </span>
+                      <span class="panel-dist">{{ group.distanceKm }}&thinsp;km</span>
+                      <mat-icon class="expand-chevron" [class.rotated]="panel.expanded">expand_more</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <!-- ── Expanded body ── -->
+                  <div class="panel-body">
+                    <p class="panel-description">{{ group.description }}</p>
+
+                    <mat-chip-set class="panel-tags" aria-label="Group tags">
+                      @for (tag of group.tags; track tag) {
+                        <mat-chip>{{ tag }}</mat-chip>
+                      }
+                    </mat-chip-set>
+
+                    <div class="panel-footer">
+                      @if (group.members) {
+                        <span class="panel-members">
+                          <mat-icon>people</mat-icon>
+                          {{ group.members }} members
+                        </span>
+                      }
+                      <button mat-flat-button class="join-btn" type="button">
+                        <mat-icon>person_add</mat-icon>
+                        Join Group
+                      </button>
+                    </div>
+                  </div>
+
+                </mat-expansion-panel>
+              }
+
+              @empty {
+                <div class="col-empty">
+                  <mat-icon>group_off</mat-icon>
+                  <p>No groups found within {{ searchService.distanceKm() }}&thinsp;km.</p>
+                </div>
+              }
+
+            </mat-accordion>
+          </div>
+        </mat-tab>
+
+        <!-- ── Tab 2: Favourites ── -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>star</mat-icon>
+            <span>Favourites</span>
+            <span class="tab-badge">0</span>
+          </ng-template>
+
+          <div class="groups-scroll">
+            <div class="col-empty">
+              <mat-icon>star_border</mat-icon>
+              <p>Mark groups as favourite to see them here.</p>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+      
+    </section>
+
+    <!-- ── RIGHT  25%  ─  Programs & Events ─────────── -->
+    <aside class="sidebar-col" aria-label="Programs and Events">
+      <!-- Sidebar header to match left section -->
+      <div class="col-search-bar">
+        <div class="col-header-row">
+          <div class="col-title-group">
+            <mat-icon class="col-icon">apps</mat-icon>
+            <h2 class="col-title">Programs</h2>
+            <span class="col-count">{{ filteredPrograms().length }}</span>
+          </div>
+          <!-- moved search pill from left into right header -->
+          <div class="section-search-pill">
+            <mat-icon class="ssp-icon">search</mat-icon>
+            <input class="ssp-input" type="text" placeholder="Search programs…" />
+            <span class="ssp-divider"></span>
+            <mat-icon class="ssp-km-icon">radar</mat-icon>
+            <select class="ssp-select">
+              <option value="2">2 km</option>
+              <option value="5" selected>5 km</option>
+              <option value="10">10 km</option>
+              <option value="25">25 km</option>
+              <option value="50">50 km</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- sidebar search removed; search pill placed in header per request -->
+
+      <!-- Sidebar tabs: All / Favourites / Cricket / Football (Programs only) -->
+      <mat-tab-group class="sidebar-tabs" animationDuration="200ms">
+
+        <!-- Tab: All -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>apps</mat-icon>
+            <span>All</span>
+            <span class="tab-badge">{{ filteredPrograms().length }}</span>
+          </ng-template>
+
+          <div class="sidebar-scroll">
+            @for (item of filteredPrograms(); track item.id) {
+              <article class="sc-card">
+                <span class="sc-emoji">{{ item.icon }}</span>
+                <div class="sc-body">
+                  <h4 class="sc-name">{{ item.name }}</h4>
+                  <p class="sc-desc">{{ item.description }}</p>
+                  <mat-chip-set class="sc-tags" aria-label="Program tags">
+                    @for (tag of item.tags; track tag) {
+                      <mat-chip>{{ tag }}</mat-chip>
+                    }
+                  </mat-chip-set>
+                  <div class="sc-foot">
+                    <span class="sc-dist">
+                      <mat-icon>near_me</mat-icon>
+                      {{ item.distanceKm }}&thinsp;km
+                    </span>
+                    <button mat-stroked-button class="view-btn" type="button">View</button>
+                  </div>
+                </div>
+              </article>
+            } @empty {
+              <div class="sidebar-empty">
+                <mat-icon>apps_outage</mat-icon>
+                <p>No programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
+              </div>
+            }
+          </div>
+        </mat-tab>
+
+        <!-- Tab: Favourites -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>star</mat-icon>
+            <span>Favourites</span>
+            <span class="tab-badge">0</span>
+          </ng-template>
+
+          <div class="sidebar-scroll">
+            <div class="sidebar-empty">
+              <mat-icon>star_border</mat-icon>
+              <p>Mark programs as favourite to see them here.</p>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab: Cricket -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>sports_cricket</mat-icon>
+            <span>Cricket</span>
+          </ng-template>
+
+          <div class="sidebar-scroll">
+            <div class="sidebar-empty">
+              <mat-icon>sports_cricket</mat-icon>
+              <p>No cricket programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Tab: Football -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>sports_soccer</mat-icon>
+            <span>Football</span>
+          </ng-template>
+
+          <div class="sidebar-scroll">
+            <div class="sidebar-empty">
+              <mat-icon>sports_soccer</mat-icon>
+              <p>No football programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </aside>
+
   </div>
-</section>
+</div>
