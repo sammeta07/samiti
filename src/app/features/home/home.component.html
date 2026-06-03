@@ -61,8 +61,13 @@
 
             <mat-accordion [multi]="true" class="groups-accordion">
 
-              @for (group of filteredGroups(); track group.id) {
-                <mat-expansion-panel #panel class="group-panel" hideToggle>
+              @for (group of filteredGroups(); track group.id; let index = $index) {
+                <mat-expansion-panel 
+                  #panel 
+                  class="group-panel" 
+                  hideToggle 
+                  [expanded]="index === expandedGroupIndex()"
+                  (opened)="expandedGroupIndex.set(index); scrollGroupsToTop()">
 
                   <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
                     <mat-panel-title class="panel-title">
@@ -89,6 +94,105 @@
                         <mat-chip>{{ tag }}</mat-chip>
                       }
                     </mat-chip-set>
+
+                    <mat-tab-group class="group-event-tabs" animationDuration="200ms" selectedIndex="1">
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <span>{{ currentYear + 1 }}</span>
+                        </ng-template>
+                        <div class="event-carousel">
+                          @for (event of getEventsForYear(currentYear + 1); track event.id) {
+                            <mat-card class="event-card">
+                              <mat-card-header>
+                                <mat-card-title>{{ event.name }}</mat-card-title>
+                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <p>{{ event.description }}</p>
+                              </mat-card-content>
+                              <mat-card-actions class="event-actions">
+                                <span>{{ event.location }}</span>
+                                <span>{{ event.distanceKm }} km</span>
+                              </mat-card-actions>
+                            </mat-card>
+                          } @empty {
+                            <div class="event-empty">No events for {{ currentYear + 1 }}</div>
+                          }
+                        </div>
+                      </mat-tab>
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <span>{{ currentYear }}</span>
+                        </ng-template>
+                        <div class="event-carousel">
+                          @for (event of getEventsForYear(currentYear); track event.id) {
+                            <mat-card class="event-card">
+                              <mat-card-header>
+                                <mat-card-title>{{ event.name }}</mat-card-title>
+                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <p>{{ event.description }}</p>
+                              </mat-card-content>
+                              <mat-card-actions class="event-actions">
+                                <span>{{ event.location }}</span>
+                                <span>{{ event.distanceKm }} km</span>
+                              </mat-card-actions>
+                            </mat-card>
+                          } @empty {
+                            <div class="event-empty">No events for {{ currentYear }}</div>
+                          }
+                        </div>
+                      </mat-tab>
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <span>{{ currentYear - 1 }}</span>
+                        </ng-template>
+                        <div class="event-carousel">
+                          @for (event of getEventsForYear(currentYear - 1); track event.id) {
+                            <mat-card class="event-card">
+                              <mat-card-header>
+                                <mat-card-title>{{ event.name }}</mat-card-title>
+                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <p>{{ event.description }}</p>
+                              </mat-card-content>
+                              <mat-card-actions class="event-actions">
+                                <span>{{ event.location }}</span>
+                                <span>{{ event.distanceKm }} km</span>
+                              </mat-card-actions>
+                            </mat-card>
+                          } @empty {
+                            <div class="event-empty">No events for {{ currentYear - 1 }}</div>
+                          }
+                        </div>
+                      </mat-tab>
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <span>{{ currentYear - 2 }}</span>
+                        </ng-template>
+                        <div class="event-carousel">
+                          @for (event of getEventsForYear(currentYear - 2); track event.id) {
+                            <mat-card class="event-card">
+                              <mat-card-header>
+                                <mat-card-title>{{ event.name }}</mat-card-title>
+                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <p>{{ event.description }}</p>
+                              </mat-card-content>
+                              <mat-card-actions class="event-actions">
+                                <span>{{ event.location }}</span>
+                                <span>{{ event.distanceKm }} km</span>
+                              </mat-card-actions>
+                            </mat-card>
+                          } @empty {
+                            <div class="event-empty">No events for {{ currentYear - 2 }}</div>
+                          }
+                        </div>
+                      </mat-tab>
+                    </mat-tab-group>
 
                     <div class="panel-footer">
                       @if (group.members) {

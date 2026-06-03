@@ -39,15 +39,15 @@
 }
 
 .col-header-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* title | spacer | actions */
   align-items: center;
-  justify-content: flex-start;
   gap: 1rem;
-  flex-wrap: nowrap; /* prevent children wrapping to next line */
+  width: 100%;
 }
 
 /* Ensure any search pill in the header sits at the far right */
-.col-header-row .section-search-pill { margin-left: auto; }
+.col-header-row .section-search-pill { grid-column: 3; justify-self: end; }
 
 /* Constrain header search pill so it doesn't stretch and stays right-aligned */
 .col-header-row .section-search-pill {
@@ -67,8 +67,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-shrink: 0;
-  flex: 0 1 auto;
+  grid-column: 1;
 }
 
 .col-icon {
@@ -129,6 +128,10 @@
     flex-shrink: 0;
   }
 
+  // Prevent Material's default flex-grow on tabs
+  ::ng-deep .mdc-tab { flex: 0 0 150px !important; }
+  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
+
   // Active tab indicator = saffron
   ::ng-deep .mat-mdc-tab-indicator-container {
     .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
@@ -152,7 +155,62 @@
   }
 
   /* Make left (groups) tab labels 150px wide to match design requirement */
-  ::ng-deep .mat-mdc-tab .mdc-tab { min-width: 150px; }
+  ::ng-deep .mat-mdc-tab .mdc-tab { min-width: 150px !important; width: 150px !important; }
+  /* Left-align contents inside the fixed-width tab */
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content {
+    justify-content: flex-start !important;
+    padding-left: 8px !important;
+  }
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content .mdc-tab__text-label {
+    text-align: left !important;
+  }
+}
+
+.group-event-tabs {
+  margin: 1rem 0 0;
+
+  ::ng-deep .mat-mdc-tab-header {
+    background: transparent;
+    border-bottom: 2px solid var(--clr-border);
+  }
+
+  ::ng-deep .mdc-tab { flex: 0 0 100px !important; min-width: 100px !important; width: 100px !important; }
+  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
+
+  ::ng-deep .mat-mdc-tab-indicator-container {
+    .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
+  }
+  ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: var(--clr-accent) !important;
+  }
+}
+
+.event-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scroll-snap-type: x proximity;
+}
+
+.event-card {
+  min-width: 260px;
+  max-width: 320px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.event-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.event-empty {
+  color: var(--clr-text-muted);
+  padding: 1rem 0;
 }
 
 /* ── Scrollable content area inside each group tab ── */
@@ -448,6 +506,10 @@
     flex-shrink: 0;
   }
 
+  // Prevent Material's default flex-grow on tabs
+  ::ng-deep .mdc-tab { flex: 0 0 150px !important; }
+  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
+
   // Active tab indicator = saffron
   ::ng-deep .mat-mdc-tab-indicator-container {
     .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
@@ -469,13 +531,19 @@
     height: 100%;
     overflow: hidden;
   }
+
+  /* Make sidebar tab labels fixed width and left-aligned like the groups tabs */
+  ::ng-deep .mat-mdc-tab .mdc-tab { min-width: 150px !important; width: 150px !important; }
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content .mdc-tab__text-label { text-align: left !important; }
 }
 
 /* Tab label layout: icon + text + count badge */
 ::ng-deep .mat-mdc-tab .mdc-tab__content {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  justify-content: flex-start !important;
 }
 
 .tab-badge {
