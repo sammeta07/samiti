@@ -17,3 +17,10 @@ AI Rules
 
 ध्यान दें: यह फाइल AI के व्यवहार का मार्गदर्शन करती है, पर इसे लागू करना AI और सिस्टम पर निर्भर करेगा।
 
+#1
+E:\samiti-app\samiti\src\styles.scss
+Kisi bhi prakar k css/scss likhne k pehle yese follow kare
+ye ek global style sheet hai esme kabhi bhi koi bhi component specific styles na likhe, yeha sirg globan styles hi likhe jayenge jo sare app me apply honge. kisi bhi component k styles sirf use component me apply hone chahiye na ki kisi dusre component me.
+
+#2 E:\samiti-app\samiti\.gitignore
+ese update karna hai agar jarurat ho to
