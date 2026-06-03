@@ -115,6 +115,14 @@
 }
 
 /* ── Tab group: All / Favourites ── */
+.groups-tabs-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
 .groups-tabs {
   display: flex;
   flex-direction: column;
@@ -123,9 +131,10 @@
 
   // Sticky tab header on surface background
   ::ng-deep .mat-mdc-tab-header {
-    background: var(--clr-surface);
+    background: var(--clr-card);
     border-bottom: 2px solid var(--clr-border);
     flex-shrink: 0;
+    padding-right: 220px; // reserve space for header actions on the right
   }
 
   // Prevent Material's default flex-grow on tabs
@@ -166,6 +175,36 @@
   }
 }
 
+.groups-tabs-header-actions {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: auto;
+}
+
+.groups-tab-action-btn {
+  min-width: auto !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  padding: 0 0.65rem !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-muted) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  background: var(--clr-surface);
+
+  &:hover {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent) !important;
+    background: rgba(249, 115, 22, 0.08);
+  }
+}
+
 .group-event-tabs {
   margin: 1rem 0 0;
 
@@ -198,6 +237,7 @@
   max-width: 320px;
   flex: 0 0 auto;
   scroll-snap-align: start;
+   background: var(--clr-card);
 }
 
 .event-actions {
@@ -217,9 +257,10 @@
 .groups-scroll {
   height: 100%;
   overflow-y: auto;
-  padding: 1rem 1.5rem 2rem;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
+  background: var(--clr-card)
 }
 
 /* ══════════════════════════════════════════════════════
@@ -309,7 +350,7 @@
   border-radius: var(--radius-md) !important;
   border: 1px solid var(--clr-border) !important;
   box-shadow: var(--shadow-sm) !important;
-  background: var(--clr-card) !important;
+  background: var(--clr-surface) !important;
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s;
 

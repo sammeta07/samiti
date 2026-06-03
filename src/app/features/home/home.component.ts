@@ -31,8 +31,9 @@ export class HomeComponent implements OnInit {
   readonly searchService = inject(SearchService);
   private  readonly homeService  = inject(HomeService);
 
-  // Track which group panel index is expanded (0 = first panel open by default)
-  readonly expandedGroupIndex = signal<number | null>(0);
+  // Track expanded group panel indices (first panel open by default)
+  readonly expandedGroupIndices = signal<Set<number>>(new Set([0]));
+  private isBulkExpanding = false;
 
   // ── Filtered slices — react to both data signals and search filter ─
   readonly filteredGroups = computed<SamitiItem[]>(() => {
@@ -83,21 +84,57 @@ export class HomeComponent implements OnInit {
   }
 
   // ── Expansion Panel Handlers ───────────────────────────────────────
-  scrollGroupsToTop(): void {
+  isGroupExpanded(index: number): boolean {
+    return this.expandedGroupIndices().has(index);
+  }
+
+  onGroupOpened(index: number): void {
+    const current = this.expandedGroupIndices();
+    const updated = new Set(current);
+    updated.add(index);
+    this.expandedGroupIndices.set(updated);
+
+    if (!this.isBulkExpanding) {
+      this.scrollGroupsToTop(index);
+    }
+  }
+
+  onGroupClosed(index: number): void {
+    const current = this.expandedGroupIndices();
+    if (!current.has(index)) return;
+    const updated = new Set(current);
+    updated.delete(index);
+    this.expandedGroupIndices.set(updated);
+  }
+
+  expandAllGroups(): void {
+    const total = this.filteredGroups().length;
+    this.isBulkExpanding = true;
+    this.expandedGroupIndices.set(new Set(Array.from({ length: total }, (_, i) => i)));
+
+    setTimeout(() => {
+      this.isBulkExpanding = false;
+    }, 0);
+  }
+
+  collapseAllGroups(): void {
+    this.expandedGroupIndices.set(new Set());
+  }
+
+  scrollGroupsToTop(index?: number): void {
     // Wait for the expansion animation to finish, then align the opened panel
     setTimeout(() => {
       const container = document.querySelector('.groups-scroll') as HTMLElement | null;
       if (!container) return;
 
       const panels = Array.from(container.querySelectorAll<HTMLElement>('.group-panel'));
-      const idx = this.expandedGroupIndex();
-      if (idx === null || idx < 0 || idx >= panels.length) {
+      if (index === undefined || index < 0 || index >= panels.length) {
         container.scrollTop = 0;
         return;
       }
 
       const first = panels[0];
-      const target = panels[idx];
+      const target = panels[index];
       if (!first || !target) {
         container.scrollTop = 0;
         return;

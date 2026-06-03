@@ -20,7 +20,7 @@ html {
   // Density applied separately — required in Angular Material v19+.
   // Scale: 0 = default (largest) ── to ── -5 = most compact.
   // Example: use -2 or -3 for a tighter, denser UI.
-  @include mat.all-component-densities(0);
+  @include mat.all-component-densities(-2);
 }
 
 body {

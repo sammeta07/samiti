@@ -37,7 +37,16 @@
       </div>
 
       <!-- Tab group: All / Favourites -->
-      <mat-tab-group class="groups-tabs" animationDuration="200ms">
+      <div class="groups-tabs-shell">
+        <div class="groups-tabs-header-actions">
+          <button mat-button type="button" class="groups-tab-action-btn" (click)="expandAllGroups()">
+            Expand All
+          </button>
+          <button mat-button type="button" class="groups-tab-action-btn" (click)="collapseAllGroups()">
+            Collapse All
+          </button>
+        </div>
+        <mat-tab-group class="groups-tabs" animationDuration="200ms">
 
         <!-- ── Tab 1: All ── -->
         <mat-tab>
@@ -66,8 +75,9 @@
                   #panel 
                   class="group-panel" 
                   hideToggle 
-                  [expanded]="index === expandedGroupIndex()"
-                  (opened)="expandedGroupIndex.set(index); scrollGroupsToTop()">
+                  [expanded]="isGroupExpanded(index)"
+                  (opened)="onGroupOpened(index)"
+                  (closed)="onGroupClosed(index)">
 
                   <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
                     <mat-panel-title class="panel-title">
@@ -238,7 +248,8 @@
           </div>
         </mat-tab>
 
-      </mat-tab-group>
+        </mat-tab-group>
+      </div>
       
     </section>
 
