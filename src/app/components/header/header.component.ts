@@ -21,7 +21,8 @@ import { LocationCoords } from './header.models';
 })
 export class HeaderComponent implements OnInit {
 
-  locationName = signal<string>('Location');
+  locationName = signal<string>('Locating...');
+  isLoading = signal<boolean>(true);
 
   constructor(private headerService: HeaderService) {}
 
@@ -30,6 +31,9 @@ export class HeaderComponent implements OnInit {
   }
 
   detectLocation() {
+    this.isLoading.set(true);
+    this.locationName.set('Locating...');
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -39,15 +43,20 @@ export class HeaderComponent implements OnInit {
             long: position.coords.longitude
           };
           this.headerService.getUserLocation(body).subscribe((data) => {
-            this.locationName.set(data.address.state_district || 'Location');
+            this.locationName.set(data.address?.state_district || 'Location');
+            this.isLoading.set(false);
           });
         },
         (error) => {
           console.error('Error getting location:', error);
+          this.locationName.set('Location denied');
+          this.isLoading.set(false);
         }
       );
     } else {
       console.error('Geolocation is not supported by this browser.');
+      this.locationName.set('Not supported');
+      this.isLoading.set(false);
     }
   }
 

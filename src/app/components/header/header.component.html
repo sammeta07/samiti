@@ -30,7 +30,7 @@
     matTooltip="Your current location"
     matTooltipPosition="below"
   >
-    <mat-icon>my_location</mat-icon>
+    <mat-icon>{{ isLoading() ? 'sync' : 'my_location' }}</mat-icon>
     <span class="location-text">{{ locationName() }}</span>
   </button>
 
