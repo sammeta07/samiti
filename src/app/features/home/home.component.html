@@ -1,24 +1,13 @@
 <div class="home-page">
-
-  <!-- component styles live in home.component.scss per project rules -->
-
-  <!-- ══════════════════════════════════════════════════
-       Two-column body
-       ══════════════════════════════════════════════════ -->
   <div class="home-body">
-
-    <!-- ── LEFT  75%  ─  Groups ─────────────────────── -->
     <section class="groups-col" aria-label="Groups">
-
-      <!-- Fixed search bar — title + pill, never scrolls -->
       <div class="col-search-bar">
         <div class="col-header-row">
           <div class="col-title-group">
             <mat-icon class="col-icon">group</mat-icon>
             <h2 class="col-title">Groups</h2>
-            <span class="col-count">{{ filteredGroups().length }}</span>
+            <span class="col-count">0</span>
           </div>
-          <!-- search pill placed at the right end of the left header -->
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
             <input class="ssp-input" type="text" placeholder="Search groups…" />
@@ -32,214 +21,69 @@
               <option value="50">50 km</option>
             </select>
           </div>
-        
         </div>
       </div>
-
-      <!-- Tab group: All / Favourites -->
       <div class="groups-tabs-shell">
         <div class="groups-tabs-header-actions">
-          <button mat-button type="button" class="groups-tab-action-btn" (click)="expandAllGroups()">
-            Expand All
-          </button>
-          <button mat-button type="button" class="groups-tab-action-btn" (click)="collapseAllGroups()">
-            Collapse All
-          </button>
+          <button mat-button type="button" class="groups-tab-action-btn">Expand All</button>
+          <button mat-button type="button" class="groups-tab-action-btn">Collapse All</button>
         </div>
         <mat-tab-group class="groups-tabs" animationDuration="200ms">
-
-        <!-- ── Tab 1: All ── -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>groups</mat-icon>
             <span>All</span>
-            <span class="tab-badge">{{ filteredGroups().length }}</span>
+            <span class="tab-badge">0</span>
           </ng-template>
-
           <div class="groups-scroll">
-
-            @if (searchService.hasActiveFilter()) {
-              <p class="col-filter-note">
-                <mat-icon>filter_list</mat-icon>
-                Filtered · within {{ searchService.distanceKm() }}&thinsp;km
-                @if (searchService.query().trim()) {
-                  · &ldquo;{{ searchService.query() }}&rdquo;
-                }
-              </p>
-            }
-
             <mat-accordion [multi]="true" class="groups-accordion">
-
-              @for (group of filteredGroups(); track group.id; let index = $index) {
-                <mat-expansion-panel 
-                  #panel 
-                  class="group-panel" 
-                  hideToggle 
-                  [expanded]="isGroupExpanded(index)"
-                  (opened)="onGroupOpened(index)"
-                  (closed)="onGroupClosed(index)">
-
-                  <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
-                    <mat-panel-title class="panel-title">
-                      <span class="panel-emoji">{{ group.icon }}</span>
-                      <span class="panel-name">{{ group.name }}</span>
-                    </mat-panel-title>
-
-                    <mat-panel-description class="panel-desc-row">
-                      <span class="panel-location">
-                        <mat-icon>place</mat-icon>
-                        {{ group.location }}
-                      </span>
-                      <span class="panel-dist">{{ group.distanceKm }}&thinsp;km</span>
-                      <mat-icon class="expand-chevron" [class.rotated]="panel.expanded">expand_more</mat-icon>
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-
-                  <!-- ── Expanded body ── -->
-                  <div class="panel-body">
-                    <p class="panel-description">{{ group.description }}</p>
-
-                    <mat-chip-set class="panel-tags" aria-label="Group tags">
-                      @for (tag of group.tags; track tag) {
-                        <mat-chip>{{ tag }}</mat-chip>
-                      }
-                    </mat-chip-set>
-
-                    <mat-tab-group class="group-event-tabs" animationDuration="200ms" selectedIndex="1">
-                      <mat-tab>
-                        <ng-template mat-tab-label>
-                          <span>{{ currentYear + 1 }}</span>
-                        </ng-template>
-                        <div class="event-carousel">
-                          @for (event of getEventsForYear(currentYear + 1); track event.id) {
-                            <mat-card class="event-card">
-                              <mat-card-header>
-                                <mat-card-title>{{ event.name }}</mat-card-title>
-                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <p>{{ event.description }}</p>
-                              </mat-card-content>
-                              <mat-card-actions class="event-actions">
-                                <span>{{ event.location }}</span>
-                                <span>{{ event.distanceKm }} km</span>
-                              </mat-card-actions>
-                            </mat-card>
-                          } @empty {
-                            <div class="event-empty">No events for {{ currentYear + 1 }}</div>
-                          }
-                        </div>
-                      </mat-tab>
-                      <mat-tab>
-                        <ng-template mat-tab-label>
-                          <span>{{ currentYear }}</span>
-                        </ng-template>
-                        <div class="event-carousel">
-                          @for (event of getEventsForYear(currentYear); track event.id) {
-                            <mat-card class="event-card">
-                              <mat-card-header>
-                                <mat-card-title>{{ event.name }}</mat-card-title>
-                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <p>{{ event.description }}</p>
-                              </mat-card-content>
-                              <mat-card-actions class="event-actions">
-                                <span>{{ event.location }}</span>
-                                <span>{{ event.distanceKm }} km</span>
-                              </mat-card-actions>
-                            </mat-card>
-                          } @empty {
-                            <div class="event-empty">No events for {{ currentYear }}</div>
-                          }
-                        </div>
-                      </mat-tab>
-                      <mat-tab>
-                        <ng-template mat-tab-label>
-                          <span>{{ currentYear - 1 }}</span>
-                        </ng-template>
-                        <div class="event-carousel">
-                          @for (event of getEventsForYear(currentYear - 1); track event.id) {
-                            <mat-card class="event-card">
-                              <mat-card-header>
-                                <mat-card-title>{{ event.name }}</mat-card-title>
-                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <p>{{ event.description }}</p>
-                              </mat-card-content>
-                              <mat-card-actions class="event-actions">
-                                <span>{{ event.location }}</span>
-                                <span>{{ event.distanceKm }} km</span>
-                              </mat-card-actions>
-                            </mat-card>
-                          } @empty {
-                            <div class="event-empty">No events for {{ currentYear - 1 }}</div>
-                          }
-                        </div>
-                      </mat-tab>
-                      <mat-tab>
-                        <ng-template mat-tab-label>
-                          <span>{{ currentYear - 2 }}</span>
-                        </ng-template>
-                        <div class="event-carousel">
-                          @for (event of getEventsForYear(currentYear - 2); track event.id) {
-                            <mat-card class="event-card">
-                              <mat-card-header>
-                                <mat-card-title>{{ event.name }}</mat-card-title>
-                                <mat-card-subtitle>{{ event.type || event.category }}</mat-card-subtitle>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <p>{{ event.description }}</p>
-                              </mat-card-content>
-                              <mat-card-actions class="event-actions">
-                                <span>{{ event.location }}</span>
-                                <span>{{ event.distanceKm }} km</span>
-                              </mat-card-actions>
-                            </mat-card>
-                          } @empty {
-                            <div class="event-empty">No events for {{ currentYear - 2 }}</div>
-                          }
-                        </div>
-                      </mat-tab>
-                    </mat-tab-group>
-
-                    <div class="panel-footer">
-                      @if (group.members) {
-                        <span class="panel-members">
-                          <mat-icon>people</mat-icon>
-                          {{ group.members }} members
-                        </span>
-                      }
-                      <button mat-flat-button class="join-btn" type="button">
-                        <mat-icon>person_add</mat-icon>
-                        Join Group
-                      </button>
+              <mat-expansion-panel class="group-panel" hideToggle>
+                <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
+                  <mat-panel-title class="panel-title">
+                    <span class="panel-emoji">🙏</span>
+                    <span class="panel-name">Group Name</span>
+                  </mat-panel-title>
+                  <mat-panel-description class="panel-desc-row">
+                    <span class="panel-location">
+                      <mat-icon>place</mat-icon>
+                      Location
+                    </span>
+                    <mat-icon class="expand-chevron">expand_more</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="panel-body">
+                  <p class="panel-description">Description</p>
+                  <div class="panel-details">
+                    <div class="detail-row">
+                      <mat-icon>calendar_today</mat-icon>
+                      <span>Since 2021</span>
+                    </div>
+                    <div class="detail-row">
+                      <mat-icon>phone</mat-icon>
+                      <span>Contact</span>
+                    </div>
+                    <div class="detail-row">
+                      <mat-icon>admin_panel_settings</mat-icon>
+                      <span class="admin-email">admin@example.com</span>
                     </div>
                   </div>
-
-                </mat-expansion-panel>
-              }
-
-              @empty {
-                <div class="col-empty">
-                  <mat-icon>group_off</mat-icon>
-                  <p>No groups found within {{ searchService.distanceKm() }}&thinsp;km.</p>
+                  <div class="panel-footer">
+                    <button mat-flat-button class="join-btn" type="button">
+                      <mat-icon>person_add</mat-icon>
+                      Join Group
+                    </button>
+                  </div>
                 </div>
-              }
-
+              </mat-expansion-panel>
             </mat-accordion>
           </div>
         </mat-tab>
-
-        <!-- ── Tab 2: Favourites ── -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>star</mat-icon>
             <span>Favourites</span>
             <span class="tab-badge">0</span>
           </ng-template>
-
           <div class="groups-scroll">
             <div class="col-empty">
               <mat-icon>star_border</mat-icon>
@@ -247,23 +91,17 @@
             </div>
           </div>
         </mat-tab>
-
         </mat-tab-group>
       </div>
-      
     </section>
-
-    <!-- ── RIGHT  25%  ─  Programs & Events ─────────── -->
     <aside class="sidebar-col" aria-label="Programs and Events">
-      <!-- Sidebar header to match left section -->
       <div class="col-search-bar">
         <div class="col-header-row">
           <div class="col-title-group">
             <mat-icon class="col-icon">apps</mat-icon>
             <h2 class="col-title">Programs</h2>
-            <span class="col-count">{{ filteredPrograms().length }}</span>
+            <span class="col-count">0</span>
           </div>
-          <!-- moved search pill from left into right header -->
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
             <input class="ssp-input" type="text" placeholder="Search programs…" />
@@ -279,57 +117,26 @@
           </div>
         </div>
       </div>
-      <!-- sidebar search removed; search pill placed in header per request -->
-
-      <!-- Sidebar tabs: All / Favourites / Cricket / Football (Programs only) -->
       <mat-tab-group class="sidebar-tabs" animationDuration="200ms">
-
-        <!-- Tab: All -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>apps</mat-icon>
             <span>All</span>
-            <span class="tab-badge">{{ filteredPrograms().length }}</span>
+            <span class="tab-badge">0</span>
           </ng-template>
-
           <div class="sidebar-scroll">
-            @for (item of filteredPrograms(); track item.id) {
-              <article class="sc-card">
-                <span class="sc-emoji">{{ item.icon }}</span>
-                <div class="sc-body">
-                  <h4 class="sc-name">{{ item.name }}</h4>
-                  <p class="sc-desc">{{ item.description }}</p>
-                  <mat-chip-set class="sc-tags" aria-label="Program tags">
-                    @for (tag of item.tags; track tag) {
-                      <mat-chip>{{ tag }}</mat-chip>
-                    }
-                  </mat-chip-set>
-                  <div class="sc-foot">
-                    <span class="sc-dist">
-                      <mat-icon>near_me</mat-icon>
-                      {{ item.distanceKm }}&thinsp;km
-                    </span>
-                    <button mat-stroked-button class="view-btn" type="button">View</button>
-                  </div>
-                </div>
-              </article>
-            } @empty {
-              <div class="sidebar-empty">
-                <mat-icon>apps_outage</mat-icon>
-                <p>No programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
-              </div>
-            }
+            <div class="sidebar-empty">
+              <mat-icon>apps_outage</mat-icon>
+              <p>No programs available.</p>
+            </div>
           </div>
         </mat-tab>
-
-        <!-- Tab: Favourites -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>star</mat-icon>
             <span>Favourites</span>
             <span class="tab-badge">0</span>
           </ng-template>
-
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>star_border</mat-icon>
@@ -337,39 +144,31 @@
             </div>
           </div>
         </mat-tab>
-
-        <!-- Tab: Cricket -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>sports_cricket</mat-icon>
             <span>Cricket</span>
           </ng-template>
-
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>sports_cricket</mat-icon>
-              <p>No cricket programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
+              <p>No cricket programs available.</p>
             </div>
           </div>
         </mat-tab>
-
-        <!-- Tab: Football -->
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>sports_soccer</mat-icon>
             <span>Football</span>
           </ng-template>
-
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>sports_soccer</mat-icon>
-              <p>No football programs within {{ searchService.distanceKm() }}&thinsp;km.</p>
+              <p>No football programs available.</p>
             </div>
           </div>
         </mat-tab>
-
       </mat-tab-group>
     </aside>
-
   </div>
 </div>

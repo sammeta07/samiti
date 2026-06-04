@@ -1,12 +1,11 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LocationService } from '../../shared/location.service';
-import { SearchService } from '../../shared/search.service';
-
+import { HeaderService } from './header.service';
+import { LocationCoords } from './header.models';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -20,30 +19,37 @@ import { SearchService } from '../../shared/search.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-  private locationService = inject(LocationService);
-  private searchService   = inject(SearchService);
+export class HeaderComponent implements OnInit {
 
-  @ViewChild('pillInput') pillInput!: ElementRef<HTMLInputElement>;
+  locationName = signal<string>('Location');
 
-  // Location state
-  userLocationName  = this.locationService.userLocationName$;
-  userLocationCords = this.locationService.userLocationCords$;
+  constructor(private headerService: HeaderService) {}
 
-  // Search state — backed by global SearchService
-  searchQuery     = this.searchService.query;
-  isSearchFocused = false;
-
-  retryLocation(): void {
-    this.locationService.detectLocation();
+  ngOnInit() {
+    this.detectLocation();
   }
 
-  onSearch(event: Event): void {
-    this.searchService.setQuery((event.target as HTMLInputElement).value);
+  detectLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log('User location:', position.coords);
+          const body: LocationCoords= {
+            lat: position.coords.latitude,
+            long: position.coords.longitude
+          };
+          this.headerService.getUserLocation(body).subscribe((data) => {
+            this.locationName.set(data.address.state_district || 'Location');
+          });
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
   }
 
-  clearSearch(): void {
-    this.searchService.setQuery('');
-    this.pillInput?.nativeElement.focus();
-  }
+
 }
