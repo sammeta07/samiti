@@ -13,12 +13,8 @@
             <input class="ssp-input" type="text" placeholder="Search groups…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select">
-              <option value="2">2 km</option>
-              <option value="5" selected>5 km</option>
-              <option value="10">10 km</option>
-              <option value="25">25 km</option>
-              <option value="50">50 km</option>
+            <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedRadius" (change)="onRadiusChange($event)">
+              <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
           </div>
         </div>
@@ -107,12 +103,8 @@
             <input class="ssp-input" type="text" placeholder="Search programs…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select">
-              <option value="2">2 km</option>
-              <option value="5" selected>5 km</option>
-              <option value="10">10 km</option>
-              <option value="25">25 km</option>
-              <option value="50">50 km</option>
+            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedRadius" (change)="onRadiusChange($event)">
+              <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
           </div>
         </div>

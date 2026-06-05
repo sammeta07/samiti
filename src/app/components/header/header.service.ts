@@ -5,7 +5,7 @@ import { LocationCoords } from './header.models';
 
 @Injectable({ providedIn: 'root' })
 export class HeaderService {
-      private readonly REVERSE_GEOCODING_API = 'https://nominatim.openstreetmap.org/reverse';
+  private readonly REVERSE_GEOCODING_API = 'https://nominatim.openstreetmap.org/reverse';
   private readonly http = inject(HttpClient);
 
   readonly userLocationCords = signal<LocationCoords | null>(null);
@@ -22,8 +22,8 @@ export class HeaderService {
             format: 'json',
             lat: request.lat.toString(),
             lon: request.long.toString(),
-            zoom: '100'
+            zoom: '10'
       };
     return this.http.get<any>(this.REVERSE_GEOCODING_API, { params });
-  }   
+  }  
 }

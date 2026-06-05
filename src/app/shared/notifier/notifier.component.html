@@ -1,0 +1,49 @@
+<section class="notifier-container" aria-live="polite" aria-atomic="true">
+  <article
+    class="notifier-toast"
+    *ngFor="let item of notifier.messages(); trackBy: trackById"
+    [ngClass]="'type-' + item.type"
+    role="status"
+    (mouseenter)="pauseTimer(item.id)"
+    (mouseleave)="resumeTimer(item.id)"
+  >
+    <div class="toast-icon" [ngClass]="'icon-' + item.type">
+      <ng-container [ngSwitch]="item.type">
+        <span *ngSwitchCase="'success'">✓</span>
+        <span *ngSwitchCase="'error'">✕</span>
+        <span *ngSwitchCase="'warn'">⚠</span>
+        <span *ngSwitchCase="'info'">ℹ</span>
+      </ng-container>
+    </div>
+
+    <div class="toast-content">
+      <h4 class="toast-title" *ngIf="item.title">{{ item.title }}</h4>
+      <p class="toast-message">{{ item.message }}</p>
+    </div>
+
+    <div class="toast-actions">
+      <button
+        class="toast-action-btn copy-btn"
+        type="button"
+        (click)="copyMessage(item.message)"
+        aria-label="Copy message"
+        title="Copy message"
+      >
+        📋
+      </button>
+      <button
+        class="toast-action-btn close-btn"
+        type="button"
+        (click)="notifier.remove(item.id)"
+        aria-label="Dismiss notification"
+      >
+        ×
+      </button>
+    </div>
+
+    <div
+      class="toast-progress"
+      [style.animationDuration.ms]="item.timeoutMs || 3500"
+    ></div>
+  </article>
+</section>
