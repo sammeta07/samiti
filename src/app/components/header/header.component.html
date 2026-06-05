@@ -7,7 +7,7 @@
   <span class="spacer"></span>
 
   <!-- Global Search Pill -->
-  <div class="search-pill" role="search" aria-label="Search">
+  <div class="search-pill" [class.pill-active]="isSearchFocused()" role="search" aria-label="Search">
     <div class="pill-left">
       <mat-icon class="pill-search-icon" aria-hidden="true">search</mat-icon>
       <input
@@ -17,8 +17,21 @@
         placeholder="Group ID / Event ID / Program ID"
         autocomplete="off"
         aria-label="Enter Group ID, Event ID or Program ID"
+        (focus)="onSearchFocus()"
+        (blur)="onSearchBlur()"
+        (input)="onSearchInput($event)"
       />
     </div>
+    @if (hasSearchText()) {
+    <button
+      type="button"
+      class="pill-clear"
+      aria-label="Clear search"
+      (mousedown)="clearSearch()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    }
   </div>
 
   <span class="spacer"></span>

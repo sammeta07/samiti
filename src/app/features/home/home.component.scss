@@ -51,7 +51,7 @@
 
 /* Constrain header search pill so it doesn't stretch and stays right-aligned */
 .col-header-row .section-search-pill {
-  max-width: 420px;
+  max-width: 254px;
   width: auto;
   flex: 0 0 auto;
   white-space: nowrap;
@@ -275,6 +275,8 @@ mat-expansion-panel {
 /* ── Expansion panel header with darker background ── */
 ::ng-deep .mat-expansion-panel-header {
   background: var(--clr-surface) !important;
+  height: 75px !important;
+  padding: 0 24px !important;
 }
 
 /* ── Group item header with logo ── */

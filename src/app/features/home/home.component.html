@@ -10,7 +10,7 @@
           </div>
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
-            <input class="ssp-input" type="text" placeholder="Search groups…" />
+            <input class="ssp-input" type="text" placeholder="Groups…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
             <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedRadius"
@@ -35,7 +35,7 @@
             <div class="groups-scroll">
               <mat-accordion #accordion [multi]="true">
                 @for (group of groupList; track group.group_id) {
-<mat-expansion-panel>
+                <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <div class="group-item-header">
                       @if (group.logo) {
@@ -96,7 +96,7 @@
           </div>
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
-            <input class="ssp-input" type="text" placeholder="Search programs…" />
+            <input class="ssp-input" type="text" placeholder="Programs…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
             <select class="ssp-select" name="programRadius" [(ngModel)]="selectedRadius"
