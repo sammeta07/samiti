@@ -33,25 +33,32 @@
               <span class="tab-badge">0</span>
             </ng-template>
             <div class="groups-scroll">
-              <mat-accordion #accordion  [multi]="true">
+              <mat-accordion #accordion [multi]="true">
                 @for (group of groupList; track group.group_id) {
-                <mat-expansion-panel>
+<mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <div class="group-item-header">
                       @if (group.logo) {
                       <img [src]="group.logo" alt="{{ group.name }} logo" class="group-logo" />
                       } @else {
-                      <mat-icon class="group-logo-fallback">groups</mat-icon>
+                      <div class="group-logo-fallback">{{ group.name.charAt(0).toUpperCase() }}</div>
                       }
-                      <mat-panel-title>
-                        {{ group.name }}
-                      </mat-panel-title>
+                      <div class="group-title-area">
+                        <mat-panel-title class="group-name">
+                          {{ group.name }}
+                        </mat-panel-title>
+                        <span class="group-since-text">since {{ group.since }}</span>
+                      </div>
                       <mat-panel-description>
-                        {{ group.area }}
+                        <span class="group-area-text">{{ group.area }}</span>
+                        <button mat-icon-button type="button" class="map-arrow-btn"
+                          (click)="openGoogleMaps(group); $event.stopPropagation()">
+                          <mat-icon>directions</mat-icon>
+                        </button>
                       </mat-panel-description>
                     </div>
                   </mat-expansion-panel-header>
-                  <p>{{ group.description }}</p>
+                  <p [title]="group.description">{{ getTruncatedDescription(group.description) }}</p>
                 </mat-expansion-panel>
                 }
               </mat-accordion>

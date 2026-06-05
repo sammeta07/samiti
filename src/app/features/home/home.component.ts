@@ -47,8 +47,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Accordion view child is now available
-    console.log('Accordion initialized:', this.accordion);
   }
 
   onRadiusChange(event: Event) {
@@ -82,9 +80,8 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  expandAll() {
+expandAll() {
     if (this.accordion) {
-      console.log('Attempting to expand all panels, accordion:', this.accordion);
       // Use Promise-based approach to ensure panels are ready
       Promise.resolve().then(() => {
         this.accordion.openAll();
@@ -96,7 +93,6 @@ export class HomeComponent implements AfterViewInit {
 
   collapseAll() {
     if (this.accordion) {
-      console.log('Attempting to collapse all panels, accordion:', this.accordion);
       // Use Promise-based approach to ensure panels are ready
       Promise.resolve().then(() => {
         this.accordion.closeAll();
@@ -104,5 +100,21 @@ export class HomeComponent implements AfterViewInit {
     } else {
       console.warn('Accordion not available for collapseAll');
     }
+  }
+
+  openGoogleMaps(group: GroupListResponse) {
+    if (group.location_cords) {
+      const { lat, long } = group.location_cords;
+      const url = `https://www.google.com/maps?q=${lat},${long}`;
+      window.open(url, '_blank');
+    }
+  }
+
+  getTruncatedDescription(description: string | null): string {
+    if (!description) return '';
+    if (description.length > 100) {
+      return description.substring(0, 100) + '...';
+    }
+    return description;
   }
 }

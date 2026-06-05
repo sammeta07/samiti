@@ -272,12 +272,76 @@ mat-expansion-panel {
   }
 }
 
+/* ── Expansion panel header with darker background ── */
+::ng-deep .mat-expansion-panel-header {
+  background: var(--clr-surface) !important;
+}
+
 /* ── Group item header with logo ── */
 .group-item-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   width: 100%;
+}
+
+.group-area-text {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+}
+
+.group-title-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-name {
+  display: block;
+  line-height: 1.2;
+}
+
+.group-since-text {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--clr-text-light);
+}
+
+.group-id-text {
+  font-size: 0.7rem;
+  color: var(--clr-text-muted);
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+/* ── Map arrow button ── */
+.map-arrow-btn {
+  margin-left: 0.5rem;
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--clr-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: rgba(249, 115, 22, 0.1);
+  }
+}
+
+::ng-deep .mat-expansion-panel-header-description {
+  justify-content: flex-end;
 }
 
 .group-logo {
@@ -289,11 +353,24 @@ mat-expansion-panel {
 }
 
 .group-logo-fallback {
-  width: 40px !important;
-  height: 40px !important;
-  font-size: 40px !important;
-  color: var(--clr-accent);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+}
+
+mat-expansion-panel p {
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -358,6 +435,9 @@ mat-expansion-panel {
   flex-shrink: 0;
   margin-right: 4px;
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ssp-select {
