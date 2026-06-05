@@ -1,7 +1,7 @@
-import { Component, inject, effect } from '@angular/core';
+import { Component, inject, effect, viewChild, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,10 +24,12 @@ import { NotifierService } from '../../shared/notifier/notifier.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
   private readonly headerService = inject(HeaderService);
   private readonly homeService = inject(HomeService);
   private readonly notifier = inject(NotifierService);
+
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   userLocationCords = this.headerService.userLocationCords;
   radiusOptions: number[] = [1, 5, 10, 25, 100, 1000];
@@ -42,6 +44,11 @@ export class HomeComponent {
         this.getGroupListByRange();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    // Accordion view child is now available
+    console.log('Accordion initialized:', this.accordion);
   }
 
   onRadiusChange(event: Event) {
@@ -66,11 +73,36 @@ export class HomeComponent {
 
     this.homeService.getGroupListByRange(body).subscribe({
       next: (data: GroupListApiResponse) => {
+        console.log('Group list fetched successfully:', data);
         this.groupList = data.groups;
       },
       error: (error) => {
         this.notifier.error(error?.error?.message || error?.error || 'Failed to fetch groups');
       }
     });
+  }
+
+  expandAll() {
+    if (this.accordion) {
+      console.log('Attempting to expand all panels, accordion:', this.accordion);
+      // Use Promise-based approach to ensure panels are ready
+      Promise.resolve().then(() => {
+        this.accordion.openAll();
+      });
+    } else {
+      console.warn('Accordion not available for expandAll');
+    }
+  }
+
+  collapseAll() {
+    if (this.accordion) {
+      console.log('Attempting to collapse all panels, accordion:', this.accordion);
+      // Use Promise-based approach to ensure panels are ready
+      Promise.resolve().then(() => {
+        this.accordion.closeAll();
+      });
+    } else {
+      console.warn('Accordion not available for collapseAll');
+    }
   }
 }

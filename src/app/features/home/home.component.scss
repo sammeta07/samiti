@@ -263,6 +263,30 @@
   background: var(--clr-card)
 }
 
+/* ── Group item header with logo ── */
+.group-item-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.group-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.group-logo-fallback {
+  width: 40px !important;
+  height: 40px !important;
+  font-size: 40px !important;
+  color: var(--clr-accent);
+  flex-shrink: 0;
+}
+
 /* ══════════════════════════════════════════════════════
    Section search pill — used in both columns
    ══════════════════════════════════════════════════════ */
@@ -338,202 +362,6 @@
   max-width: 56px;   // just wide enough for "50 km"
 }
 
-/* ── Accordion ── */
-.groups-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-/* ── Individual expansion panel ── */
-.group-panel {
-  border-radius: var(--radius-md) !important;
-  border: 1px solid var(--clr-border) !important;
-  box-shadow: var(--shadow-sm) !important;
-  background: var(--clr-surface) !important;
-  overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
-
-  &.mat-expanded {
-    border-color: var(--clr-accent) !important;
-    box-shadow: var(--shadow-md) !important;
-  }
-}
-
-/* Header row */
-.group-header {
-  height: 64px !important;
-  padding: 0 1rem !important;
-  cursor: pointer;
-
-  ::ng-deep .mat-content {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  &:hover { background: rgba(30, 41, 59, 0.03) !important; }
-}
-
-/* Compact layout grid/flex */
-.header-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 1.5rem;
-  font-size: 13px;
-}
-
-.main-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 160px;
-
-  .group-name {
-    font-weight: 600;
-    color: var(--clr-text-dark);
-    font-size: 14px;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .badge {
-    font-size: 11px;
-    color: var(--clr-text-muted);
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.description-section {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--clr-text-muted);
-  font-style: italic;
-  font-size: 12px;
-}
-
-.meta-section {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  white-space: nowrap;
-  flex-shrink: 0;
-
-  .contact-pill,
-  .admin-pill {
-    background-color: var(--clr-card);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--clr-text-dark);
-    border: 1px solid var(--clr-border);
-  }
-}
-
-.panel-content {
-  padding: 12px 0;
-  font-size: 13px;
-  line-height: 1.5;
-
-  p {
-    margin: 0 0 0.5rem;
-    color: var(--clr-text-muted);
-
-    strong {
-      color: var(--clr-text-dark);
-    }
-  }
-}
-
-.panel-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 0.5rem 0;
-}
-
-.detail-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--clr-text-muted);
-
-  mat-icon {
-    font-size: 1rem;
-    width: 1rem;
-    height: 1rem;
-    color: var(--clr-accent);
-  }
-}
-
-.admin-email {
-  font-size: 0.78rem;
-  color: var(--clr-text-dark);
-  background: rgba(249, 115, 22, 0.08);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  margin-right: 0.25rem;
-}
-
-.panel-tags {
-  margin-bottom: 0.9rem;
-
-  // Blue chip style for group tags
-  ::ng-deep .mat-mdc-chip.mdc-evolution-chip {
-    background: #EFF6FF;
-    color: #1D4ED8;
-    border: 1px solid #BFDBFE;
-
-    .mdc-evolution-chip__text-label { font-size: 0.7rem; font-weight: 600; }
-  }
-}
-
-.panel-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.panel-members {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.79rem;
-  color: var(--clr-text-muted);
-
-  mat-icon { font-size: 1rem; width: 1rem; height: 1rem; }
-}
-
-.join-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.9rem !important;
-  border-radius: var(--radius-sm) !important;
-  background: var(--clr-accent) !important;
-  color: #fff !important;
-  font-size: 0.78rem !important;
-  font-weight: 600 !important;
-  cursor: pointer;
-
-  mat-icon { font-size: 0.9rem; width: 0.9rem; height: 0.9rem; }
-
-  &:hover { background: var(--clr-accent-hover) !important; }
-}
-
-/* ── Empty state (inside accordion) ── */
 .col-empty {
   display: flex;
   flex-direction: column;

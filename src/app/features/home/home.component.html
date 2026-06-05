@@ -13,7 +13,8 @@
             <input class="ssp-input" type="text" placeholder="Search groups…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedRadius" (change)="onRadiusChange($event)">
+            <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedRadius"
+              (change)="onRadiusChange($event)">
               <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
           </div>
@@ -21,72 +22,60 @@
       </div>
       <div class="groups-tabs-shell">
         <div class="groups-tabs-header-actions">
-          <button mat-button type="button" class="groups-tab-action-btn">Expand All</button>
-          <button mat-button type="button" class="groups-tab-action-btn">Collapse All</button>
+          <button mat-button type="button" class="groups-tab-action-btn" (click)="expandAll()">Expand All</button>
+          <button mat-button type="button" class="groups-tab-action-btn" (click)="collapseAll()">Collapse All</button>
         </div>
         <mat-tab-group class="groups-tabs" animationDuration="200ms">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>groups</mat-icon>
-            <span>All</span>
-            <span class="tab-badge">0</span>
-          </ng-template>
-          <div class="groups-scroll">
-            <mat-accordion [multi]="true" class="groups-accordion">
-              <mat-expansion-panel class="group-panel" hideToggle>
-                <mat-expansion-panel-header class="group-header" collapsedHeight="64px" expandedHeight="64px">
-                  <mat-panel-title class="panel-title">
-                    <span class="panel-emoji">🙏</span>
-                    <span class="panel-name">Group Name</span>
-                  </mat-panel-title>
-                  <mat-panel-description class="panel-desc-row">
-                    <span class="panel-location">
-                      <mat-icon>place</mat-icon>
-                      Location
-                    </span>
-                    <mat-icon class="expand-chevron">expand_more</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="panel-body">
-                  <p class="panel-description">Description</p>
-                  <div class="panel-details">
-                    <div class="detail-row">
-                      <mat-icon>calendar_today</mat-icon>
-                      <span>Since 2021</span>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>groups</mat-icon>
+              <span>All</span>
+              <span class="tab-badge">0</span>
+            </ng-template>
+            <div class="groups-scroll">
+              <mat-accordion #accordion  [multi]="true">
+                @for (group of groupList; track group.group_id) {
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <div class="group-item-header">
+                      @if (group.logo) {
+                      <img [src]="group.logo" alt="{{ group.name }} logo" class="group-logo" />
+                      } @else {
+                      <mat-icon class="group-logo-fallback">groups</mat-icon>
+                      }
+                      <mat-panel-title>
+                        {{ group.name }}
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        {{ group.area }}
+                      </mat-panel-description>
                     </div>
-                    <div class="detail-row">
-                      <mat-icon>phone</mat-icon>
-                      <span>Contact</span>
-                    </div>
-                    <div class="detail-row">
-                      <mat-icon>admin_panel_settings</mat-icon>
-                      <span class="admin-email">admin@example.com</span>
-                    </div>
-                  </div>
-                  <div class="panel-footer">
-                    <button mat-flat-button class="join-btn" type="button">
-                      <mat-icon>person_add</mat-icon>
-                      Join Group
-                    </button>
-                  </div>
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </div>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>star</mat-icon>
-            <span>Favourites</span>
-            <span class="tab-badge">0</span>
-          </ng-template>
-          <div class="groups-scroll">
-            <div class="col-empty">
-              <mat-icon>star_border</mat-icon>
-              <p>Mark groups as favourite to see them here.</p>
+                  </mat-expansion-panel-header>
+                  <p>{{ group.description }}</p>
+                </mat-expansion-panel>
+                }
+              </mat-accordion>
+              @if (0) {
+              <div class="col-empty">
+                <mat-icon>groups</mat-icon>
+                <p>No groups found.</p>
+              </div>
+              }
             </div>
-          </div>
-        </mat-tab>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>star</mat-icon>
+              <span>Favourites</span>
+              <span class="tab-badge">0</span>
+            </ng-template>
+            <div class="groups-scroll">
+              <div class="col-empty">
+                <mat-icon>star_border</mat-icon>
+                <p>Mark groups as favourite to see them here.</p>
+              </div>
+            </div>
+          </mat-tab>
         </mat-tab-group>
       </div>
     </section>
@@ -103,7 +92,8 @@
             <input class="ssp-input" type="text" placeholder="Search programs…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedRadius" (change)="onRadiusChange($event)">
+            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedRadius"
+              (change)="onRadiusChange($event)">
               <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
           </div>
