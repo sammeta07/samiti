@@ -263,6 +263,15 @@
   background: var(--clr-card)
 }
 
+/* Space between expansion panels */
+mat-expansion-panel {
+  margin-bottom: 0.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
 /* ── Group item header with logo ── */
 .group-item-header {
   display: flex;
