@@ -13,15 +13,14 @@
 .home-body {
   display: flex;
   flex: 1;
-  overflow: hidden;   // children scroll independently
-  min-height: 0;      // allows flex children to shrink below content size
+  overflow: hidden;
+  min-height: 0;
 }
 
 /* ═══════════════════════════════════════════════════════
    LEFT column — 75%  — Groups
    ═══════════════════════════════════════════════════════ */
 .groups-col {
-  /* 70% of available width (flex ratio 7:3) */
   flex: 7;
   overflow: hidden;
   display: flex;
@@ -30,44 +29,30 @@
   border-right: 1px solid var(--clr-border);
 }
 
-/* ── Column search bar (sticky, never scrolls) ── */
+/* ── Column search bar ── */
 .col-search-bar {
   padding: 0.8rem 1.5rem 0.7rem;
   border-bottom: 1px solid var(--clr-border);
   background: var(--clr-surface);
   flex-shrink: 0;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
 }
 
+/* ── Header row: icon + title | search pill ── */
 .col-header-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto; /* title | spacer | actions */
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   width: 100%;
-}
-
-/* Ensure any search pill in the header sits at the far right */
-.col-header-row .section-search-pill { grid-column: 3; justify-self: end; }
-
-/* Constrain header search pill so it doesn't stretch and stays right-aligned */
-.col-header-row .section-search-pill {
-  max-width: 254px;
-  width: auto;
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-/* keep header layout using flex; search pill will be right-aligned via margin-left:auto */
-
-.col-header-row .section-search-pill .ssp-input {
-  max-width: calc(100% - 110px); /* leaves space for icons and select */
 }
 
 .col-title-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  grid-column: 1;
 }
 
 .col-icon {
@@ -84,34 +69,77 @@
   margin: 0;
 }
 
-.col-count {
+/* ── Section search pill — used in both columns ── */
+.section-search-pill {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
+  height: 34px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--clr-border);
   border-radius: 999px;
-  background: var(--clr-navy);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 700;
+  background: var(--clr-card);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: var(--clr-accent);
+    box-shadow: 0 0 0 2.5px rgba(249, 115, 22, 0.12);
+  }
 }
 
-.col-filter-note {
+.ssp-icon {
+  font-size: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--clr-text-light);
+  flex-shrink: 0;
+  margin-right: 6px;
+  pointer-events: none;
+}
+
+.ssp-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.8rem;
+  color: var(--clr-text-dark);
+  outline: none;
+
+  &::placeholder {
+    color: var(--clr-text-light);
+  }
+}
+
+.ssp-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--clr-border);
+  flex-shrink: 0;
+  margin: 0 8px;
+}
+
+.ssp-km-icon {
+  font-size: 0.85rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  color: var(--clr-accent);
+  flex-shrink: 0;
+  margin-right: 4px;
+  pointer-events: none;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  margin: 0 0 0.5rem;    // space before the accordion
-  font-size: 0.78rem;
-  color: var(--clr-text-muted);
+  justify-content: center;
+}
 
-  mat-icon {
-    font-size: 0.95rem;
-    width: 0.95rem;
-    height: 0.95rem;
-    color: var(--clr-accent);
-  }
+.ssp-select {
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--clr-text-dark);
+  cursor: pointer;
+  outline: none;
+  max-width: 56px;
 }
 
 /* ── Tab group: All / Favourites ── */
@@ -129,30 +157,36 @@
   flex: 1;
   overflow: hidden;
 
-  // Sticky tab header on surface background
   ::ng-deep .mat-mdc-tab-header {
     background: var(--clr-card);
     border-bottom: 2px solid var(--clr-border);
     flex-shrink: 0;
-    padding-right: 220px; // reserve space for header actions on the right
+    padding-right: 116px;
   }
 
-  // Prevent Material's default flex-grow on tabs
-  ::ng-deep .mdc-tab { flex: 0 0 150px !important; }
-  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
+  ::ng-deep .mdc-tab {
+    flex: 0 0 150px !important;
+  }
 
-  // Active tab indicator = saffron
+  ::ng-deep .mdc-tab__content {
+    justify-content: flex-start !important;
+    padding-left: 8px !important;
+  }
+
   ::ng-deep .mat-mdc-tab-indicator-container {
-    .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
+    .mat-mdc-tab-indicator {
+      border-color: var(--clr-accent) !important;
+    }
   }
+
   ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
     color: var(--clr-accent) !important;
   }
+
   ::ng-deep .mat-mdc-tab.mdc-tab--active mat-icon {
     color: var(--clr-accent) !important;
   }
 
-  // Tab body fills remaining height
   ::ng-deep .mat-mdc-tab-body-wrapper {
     flex: 1;
     overflow: hidden;
@@ -163,13 +197,16 @@
     overflow: hidden;
   }
 
-  /* Make left (groups) tab labels 150px wide to match design requirement */
-  ::ng-deep .mat-mdc-tab .mdc-tab { min-width: 150px !important; width: 150px !important; }
-  /* Left-align contents inside the fixed-width tab */
+  ::ng-deep .mat-mdc-tab .mdc-tab {
+    min-width: 150px !important;
+    width: 150px !important;
+  }
+
   ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content {
     justify-content: flex-start !important;
     padding-left: 8px !important;
   }
+
   ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content .mdc-tab__text-label {
     text-align: left !important;
   }
@@ -205,54 +242,6 @@
   }
 }
 
-.group-event-tabs {
-  margin: 1rem 0 0;
-
-  ::ng-deep .mat-mdc-tab-header {
-    background: transparent;
-    border-bottom: 2px solid var(--clr-border);
-  }
-
-  ::ng-deep .mdc-tab { flex: 0 0 100px !important; min-width: 100px !important; width: 100px !important; }
-  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
-
-  ::ng-deep .mat-mdc-tab-indicator-container {
-    .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
-  }
-  ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-    color: var(--clr-accent) !important;
-  }
-}
-
-.event-carousel {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding: 1rem 0;
-  scroll-snap-type: x proximity;
-}
-
-.event-card {
-  min-width: 260px;
-  max-width: 320px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-   background: var(--clr-card);
-}
-
-.event-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--clr-text-muted);
-}
-
-.event-empty {
-  color: var(--clr-text-muted);
-  padding: 1rem 0;
-}
-
 /* ── Scrollable content area inside each group tab ── */
 .groups-scroll {
   height: 100%;
@@ -260,7 +249,7 @@
   padding: 0.75rem;
   display: flex;
   flex-direction: column;
-  background: var(--clr-card)
+  background: var(--clr-card);
 }
 
 /* Space between expansion panels */
@@ -272,100 +261,11 @@ mat-expansion-panel {
   }
 }
 
-/* ── Expansion panel header with darker background ── */
+/* ── Expansion panel header ── */
 ::ng-deep .mat-expansion-panel-header {
   background: var(--clr-surface) !important;
-  height: 75px !important;
+  height: 56px !important;
   padding: 0 24px !important;
-}
-
-/* ── Group item header with logo ── */
-.group-item-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-.group-area-text {
-  font-size: 0.75rem;
-  color: var(--clr-text-muted);
-}
-
-.group-title-area {
-  display: flex;
-  flex-direction: column;
-}
-
-.group-name {
-  display: block;
-  line-height: 1.2;
-}
-
-.group-since-text {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--clr-text-light);
-}
-
-.group-id-text {
-  font-size: 0.7rem;
-  color: var(--clr-text-muted);
-  display: block;
-  width: 100%;
-  text-align: right;
-  margin-top: 0.25rem;
-}
-
-/* ── Map arrow button ── */
-.map-arrow-btn {
-  margin-left: 0.5rem;
-  width: 28px !important;
-  height: 28px !important;
-  line-height: 28px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  mat-icon {
-    font-size: 1rem;
-    width: 1rem;
-    height: 1rem;
-    color: var(--clr-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &:hover {
-    background: rgba(249, 115, 22, 0.1);
-  }
-}
-
-::ng-deep .mat-expansion-panel-header-description {
-  justify-content: flex-end;
-}
-
-.group-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.group-logo-fallback {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--clr-accent);
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 
 mat-expansion-panel p {
@@ -373,86 +273,10 @@ mat-expansion-panel p {
   color: var(--clr-text-muted);
   line-height: 1.5;
   margin: 0;
+  padding: 0.5rem 0;
 }
 
-/* ══════════════════════════════════════════════════════
-   Section search pill — used in both columns
-   ══════════════════════════════════════════════════════ */
-.section-search-pill {
-  display: inline-flex;
-  align-items: center;
-  height: 34px;
-  padding: 0 10px 0 12px;
-  border: 1px solid var(--clr-border);
-  border-radius: 999px;
-  background: var(--clr-card);
-  transition: border-color 0.2s, box-shadow 0.2s;
-
-  &:focus-within {
-    border-color: var(--clr-accent);
-    box-shadow: 0 0 0 2.5px rgba(249, 115, 22, 0.12);
-  }
-
-  // Modifier: stretches to fill the parent (sidebar header)
-  &.ssp-full {
-    width: 100%;
-  }
-}
-
-.ssp-icon {
-  font-size: 0.95rem;
-  width: 0.95rem;
-  height: 0.95rem;
-  color: var(--clr-text-light);
-  flex-shrink: 0;
-  margin-right: 6px;
-  pointer-events: none;
-}
-
-.ssp-input {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  background: transparent;
-  font-size: 0.8rem;
-  color: var(--clr-text-dark);
-  outline: none;
-
-  &::placeholder { color: var(--clr-text-light); }
-}
-
-.ssp-divider {
-  width: 1px;
-  height: 18px;
-  background: var(--clr-border);
-  flex-shrink: 0;
-  margin: 0 8px;
-}
-
-.ssp-km-icon {
-  font-size: 0.85rem;
-  width: 0.85rem;
-  height: 0.85rem;
-  color: var(--clr-accent);
-  flex-shrink: 0;
-  margin-right: 4px;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ssp-select {
-  border: none;
-  background: transparent;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--clr-text-dark);
-  cursor: pointer;
-  outline: none;
-  max-width: 56px;   // just wide enough for "50 km"
-}
-
+/* ── Empty state ── */
 .col-empty {
   display: flex;
   flex-direction: column;
@@ -462,94 +286,19 @@ mat-expansion-panel p {
   color: var(--clr-text-light);
   text-align: center;
 
-  mat-icon { font-size: 2.5rem; width: 2.5rem; height: 2.5rem; }
-  p { font-size: 0.88rem; margin: 0; }
-}
-
-/* ═══════════════════════════════════════════════════════
-   RIGHT column — 25%  — Programs & Events sidebar
-   ═══════════════════════════════════════════════════════ */
-.sidebar-col {
-  /* 30% of available width (flex ratio 3:7) */
-  flex: 3;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background: var(--clr-card);
-}
-
-/* ── Sidebar search bar (above tabs) ── */
-.sidebar-search-bar {
-  /* preserved but header-aligned; most search UI is now in header */
-  padding: 0.6rem 0.75rem;
-  border-bottom: 1px solid var(--clr-border);
-  background: var(--clr-card);
-  flex-shrink: 0;
-}
-
-/* Ensure header height is consistent between left and right */
-.col-search-bar,
-.sidebar-search-bar {
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  padding: 0 1.5rem;
-}
-
-/* ── Tab group ── */
-.sidebar-tabs {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-
-  // Make tab header sticky
-  ::ng-deep .mat-mdc-tab-header {
-    background: var(--clr-card);
-    border-bottom: 2px solid var(--clr-border);
-    flex-shrink: 0;
+  mat-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
-  // Prevent Material's default flex-grow on tabs
-  ::ng-deep .mdc-tab { flex: 0 0 150px !important; }
-  ::ng-deep .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
-
-  // Active tab indicator = saffron
-  ::ng-deep .mat-mdc-tab-indicator-container {
-    .mat-mdc-tab-indicator { border-color: var(--clr-accent) !important; }
+  p {
+    font-size: 0.88rem;
+    margin: 0;
   }
-  ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-    color: var(--clr-accent) !important;
-  }
-  ::ng-deep .mat-mdc-tab.mdc-tab--active mat-icon {
-    color: var(--clr-accent) !important;
-  }
-
-  // Tab body = scrollable
-  ::ng-deep .mat-mdc-tab-body-wrapper {
-    flex: 1;
-    overflow: hidden;
-  }
-
-  ::ng-deep .mat-mdc-tab-body-content {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  /* Make sidebar tab labels fixed width and left-aligned like the groups tabs */
-  ::ng-deep .mat-mdc-tab .mdc-tab { min-width: 150px !important; width: 150px !important; }
-  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content { justify-content: flex-start !important; padding-left: 8px !important; }
-  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content .mdc-tab__text-label { text-align: left !important; }
 }
 
-/* Tab label layout: icon + text + count badge */
-::ng-deep .mat-mdc-tab .mdc-tab__content {
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.35rem !important;
-  justify-content: flex-start !important;
-}
-
+/* ── Tab badge count ── */
 .tab-badge {
   display: inline-flex;
   align-items: center;
@@ -565,6 +314,86 @@ mat-expansion-panel p {
   line-height: 1;
 }
 
+/* ═══════════════════════════════════════════════════════
+   RIGHT column — 25%  — Programs & Events sidebar
+   ══════════���═��══════════════════════════════════════════ */
+.sidebar-col {
+  flex: 3;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--clr-card);
+}
+
+/* ── Tab group ── */
+.sidebar-tabs {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+
+  ::ng-deep .mat-mdc-tab-header {
+    background: var(--clr-card);
+    border-bottom: 2px solid var(--clr-border);
+    flex-shrink: 0;
+  }
+
+  ::ng-deep .mdc-tab {
+    flex: 0 0 150px !important;
+  }
+
+  ::ng-deep .mdc-tab__content {
+    justify-content: flex-start !important;
+    padding-left: 8px !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-indicator-container {
+    .mat-mdc-tab-indicator {
+      border-color: var(--clr-accent) !important;
+    }
+  }
+
+  ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: var(--clr-accent) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab.mdc-tab--active mat-icon {
+    color: var(--clr-accent) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  ::ng-deep .mat-mdc-tab .mdc-tab {
+    min-width: 150px !important;
+    width: 150px !important;
+  }
+
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content {
+    justify-content: flex-start !important;
+    padding-left: 8px !important;
+  }
+
+  ::ng-deep .mat-mdc-tab .mdc-tab .mdc-tab__content .mdc-tab__text-label {
+    text-align: left !important;
+  }
+}
+
+/* Tab label layout: icon + text + count badge */
+::ng-deep .mat-mdc-tab .mdc-tab__content {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  justify-content: flex-start !important;
+}
+
 /* ── Scrollable card list inside each tab ── */
 .sidebar-scroll {
   height: 100%;
@@ -573,115 +402,6 @@ mat-expansion-panel p {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-}
-
-/* ── Individual sidebar card ── */
-.sc-card {
-  display: flex;
-  gap: 0.75rem;
-  background: var(--clr-surface);
-  border: 1px solid var(--clr-border);
-  border-radius: var(--radius-md);
-  padding: 0.85rem;
-  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
-  cursor: pointer;
-
-  &:hover {
-    border-color: var(--clr-accent);
-    box-shadow: var(--shadow-sm);
-    transform: translateX(2px);
-  }
-}
-
-.sc-emoji {
-  font-size: 1.6rem;
-  line-height: 1;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
-}
-
-.sc-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.sc-name {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--clr-text-dark);
-  margin: 0 0 0.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sc-date {
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  font-size: 0.72rem;
-  color: var(--clr-accent);
-  font-weight: 600;
-  margin: 0 0 0.25rem;
-
-  mat-icon { font-size: 0.8rem; width: 0.8rem; height: 0.8rem; }
-}
-
-.sc-desc {
-  font-size: 0.78rem;
-  color: var(--clr-text-muted);
-  line-height: 1.45;
-  margin: 0 0 0.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.sc-tags {
-  margin-bottom: 0.55rem;
-
-  // Green chip style for program/event tags
-  ::ng-deep .mat-mdc-chip.mdc-evolution-chip {
-    background: #F0FDF4;
-    color: #15803D;
-    border: 1px solid #BBF7D0;
-
-    .mdc-evolution-chip__text-label { font-size: 0.65rem; font-weight: 500; }
-  }
-}
-
-.sc-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sc-dist {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.15rem;
-  font-size: 0.73rem;
-  font-weight: 600;
-  color: var(--clr-text-light);
-
-  mat-icon { font-size: 0.8rem; width: 0.8rem; height: 0.8rem; }
-}
-
-// mat-stroked-button "View" — saffron stroke, fills on hover
-.view-btn {
-  font-size: 0.72rem !important;
-  font-weight: 600 !important;
-  line-height: 28px !important;
-  height: 28px !important;
-  padding: 0 0.65rem !important;
-  border-color: var(--clr-accent) !important;
-  color: var(--clr-accent) !important;
-
-  &:hover {
-    background: var(--clr-accent) !important;
-    color: #fff !important;
-  }
 }
 
 /* ── Sidebar empty state ── */
@@ -694,6 +414,14 @@ mat-expansion-panel p {
   text-align: center;
   color: var(--clr-text-light);
 
-  mat-icon { font-size: 2rem; width: 2rem; height: 2rem; }
-  p { font-size: 0.82rem; margin: 0; }
+  mat-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  p {
+    font-size: 0.82rem;
+    margin: 0;
+  }
 }
