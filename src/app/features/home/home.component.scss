@@ -438,7 +438,10 @@ mat-expansion-panel p {
     grid-template-columns: 60px 1fr auto;
     grid-template-rows: auto auto auto;
     align-items: center;
-    padding: 0.25rem 0;
+    padding: 0.25rem;
+    margin: 0.25rem;
+    border: 1px solid rgb(124, 119, 119);
+    border-radius: 8px;
 }
 
 .div1 {
@@ -447,7 +450,6 @@ mat-expansion-panel p {
     display: flex;
     align-items: center;
     justify-content: center;
-     background-color: rgb(205, 31, 109);
      width: 100%;
     height: 100%;
 }
@@ -480,7 +482,6 @@ mat-expansion-panel p {
     color: var(--clr-text-light, #94a3b8);
     justify-self: center;
     font-weight: 500;
-    background-color: lightgreen;
     width: 100%;
     height: 100%;
 
@@ -494,7 +495,6 @@ mat-expansion-panel p {
     gap: 2px;
     font-size: 0.8rem;
     color: var(--clr-text-muted, #64748b);
-    background-color: rgb(6, 43, 56);
        width: 100%;
     height: 100%;
 }
@@ -517,7 +517,6 @@ mat-expansion-panel p {
     grid-column: 3;
     grid-row: 3;
     justify-self: end;
-    background-color: lightcoral;
         width: 100%;
     height: 100%;
 }
@@ -529,7 +528,6 @@ mat-expansion-panel p {
     font-weight: 700;
     color: var(--clr-text-dark, #1e293b);
     line-height: 1.2;
-    background-color: rgb(175, 175, 16);
     width: 100%;
     height: 100%;
 }
@@ -540,7 +538,6 @@ mat-expansion-panel p {
     font-size: 0.7rem;
     color: var(--clr-text-light, #94a3b8);
     justify-self: end;
-    background-color: rgb(31, 121, 121);
     width: 100%;
     height: 100%;
 }
@@ -551,8 +548,6 @@ mat-expansion-panel p {
     font-size: 0.8rem;
     color: var(--clr-text-muted, #64748b);
     line-height: 1.4;
-    border-top: 1px solid var(--clr-border, #e2e8f0);
-    background-color: rgb(121, 31, 121);
     width: 100%;
     height: 100%;
 }
