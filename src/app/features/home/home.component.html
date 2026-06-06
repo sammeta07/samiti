@@ -34,41 +34,37 @@
             </ng-template>
             <div class="groups-scroll">
               <mat-accordion #accordion [multi]="true">
-                @for (group of groupList; track group.group_id) {
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <div class="parent">
-                      <div class="div1">
-                        @if (group.logo) {
-                        <img [src]="group.logo" alt="{{ group.name }} logo" class="group-logo" />
-                        } @else {
-                        <div class="group-logo-fallback">{{ group.name.charAt(0).toUpperCase() }}</div>
-                        }
+@for (group of groupList; track group.group_id) {
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <div class="parent">
+                        <div class="div1">
+                          @if (group.logo) {
+                            <img [src]="group.logo" alt="{{ group.name }} logo" class="group-logo" />
+                          } @else {
+                            <div class="group-logo-fallback">{{ group.name.charAt(0).toUpperCase() }}</div>
+                          }
+                        </div>
+                        <div class="div2">since {{ group.since }}</div>
+                        <div class="div3">
+                          {{ group.area }}
+                          <button mat-icon-button type="button" class="map-arrow-btn"
+                            (click)="openGoogleMaps(group); $event.stopPropagation()">
+                            <mat-icon>directions</mat-icon>
+                          </button>
+                        </div>
+                        <div class="div4">
+                          <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
+                        </div>
+                        <div class="div5">{{ group.name }}</div>
+                        <div class="div6">Group ID: {{ group.group_id }}</div>
+                        <div class="div7">
+                          {{ getTruncatedDescription(group.description) }}
+                        </div>
                       </div>
-                      <div class="div2">
-                        since {{ group.since }}
-                      </div>
-                      <div class="div3">
-                        {{ group.area }}
-                        <button mat-icon-button type="button" class="map-arrow-btn"
-                          (click)="openGoogleMaps(group); $event.stopPropagation()">
-                          <mat-icon>directions</mat-icon>
-                        </button>
-                      </div>
-                      <div class="div4">
-                        <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
-                      </div>
-                      <div class="div5">{{ group.name }}</div>
-                      <div class="div6">
-                        Group ID: {{ group.group_id }}
-                      </div>
-                      <div class="div7">
-                        {{ getTruncatedDescription(group.description) }}
-                      </div>
-                    </div>
-                  </mat-expansion-panel-header>
-                  <p [title]="group.description">{{ getTruncatedDescription(group.description) }}</p>
-                </mat-expansion-panel>
+                    </mat-expansion-panel-header>
+                    content -  mat-tab come here
+                  </mat-expansion-panel>
                 }
               </mat-accordion>
               @if (0) {
