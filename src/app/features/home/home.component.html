@@ -44,17 +44,17 @@
                         <div class="group-logo-fallback">{{ group.name.charAt(0).toUpperCase() }}</div>
                         }
                       </div>
-<div class="div2">
+                      <div class="div2">
                         <span class="pill since-pill">since - {{ group.since }}</span>
                         <span class="div2-separator"></span>
-                        
+
                         <span class="pill contact-pill">
                           <mat-icon>phone</mat-icon>
                           {{ group.contact_numbers.join(', ') }}
                         </span>
                       </div>
-<div class="div3">
-                        <mat-icon>location_on</mat-icon>
+                      <div class="div3">
+                        <mat-icon>place</mat-icon>
                         {{ group.area }}
                         <button mat-icon-button type="button" class="map-arrow-btn"
                           (click)="openGoogleMaps(group); $event.stopPropagation()">
@@ -105,7 +105,6 @@
           <div class="col-title-group">
             <mat-icon class="col-icon">apps</mat-icon>
             <h2 class="col-title">Programs</h2>
-            <span class="col-count">0</span>
           </div>
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
