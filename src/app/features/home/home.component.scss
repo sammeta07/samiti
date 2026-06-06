@@ -79,6 +79,7 @@
   border-radius: 999px;
   background: var(--clr-card);
   transition: border-color 0.2s, box-shadow 0.2s;
+  width: 50%;
 
   &:focus-within {
     border-color: var(--clr-accent);

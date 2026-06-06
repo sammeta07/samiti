@@ -12,7 +12,7 @@
             <input class="ssp-input" type="text" placeholder="Groups…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedRadius"
+            <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedGroupRadius"
               (change)="onRadiusChange($event)">
               <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
@@ -87,7 +87,7 @@
               @if (0) {
               <div class="col-empty">
                 <mat-icon>groups</mat-icon>
-                <p>No groups found with in {{selectedRadius}} km. Please increase the Range.</p>
+                <p>No groups found with in {{selectedGroupRadius}} km. Please increase the Range.</p>
               </div>
               }
             </div>
@@ -120,7 +120,7 @@
             <input class="ssp-input" type="text" placeholder="Programs…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedRadius"
+            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedGroupRadius"
               (change)="onRadiusChange($event)">
               <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
             </select>
@@ -137,7 +137,7 @@
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>apps_outage</mat-icon>
-              <p>No programs available.</p>
+              <p>No programs available with in {{selectedProgramRadius}} Km.</p>
             </div>
           </div>
         </mat-tab>

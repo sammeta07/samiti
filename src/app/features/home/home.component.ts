@@ -36,7 +36,8 @@ export class HomeComponent implements AfterViewInit {
 
   userLocationCords = this.headerService.userLocationCords;
   radiusOptions: number[] = [1, 5, 10, 25, 100, 1000];
-  selectedRadius: number = 5;
+  selectedGroupRadius: number = 5;
+  selectedProgramRadius: number = 5;
   groupList: GroupListResponse[] = [];
 
   constructor() {
@@ -54,7 +55,7 @@ export class HomeComponent implements AfterViewInit {
 
   onRadiusChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectedRadius = Number(target.value);
+    this.selectedGroupRadius = Number(target.value);
     this.getGroupListByRange();
   }
 
@@ -69,7 +70,7 @@ export class HomeComponent implements AfterViewInit {
     const body: GroupListRequestBackend = {
       lat: locationCoords.lat,
       long: locationCoords.long,
-      rangeKm: this.selectedRadius,
+      rangeKm: this.selectedGroupRadius,
     };
 
     this.homeService.getGroupListByRange(body).subscribe({
