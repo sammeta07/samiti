@@ -4,9 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HeaderService } from './header.service';
 import { LocationCoords } from './header.models';
 import { NotifierService } from '../../shared/notifier/notifier.service';
+import { RegisterDialogComponent } from '../dialog/register/register.component';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +19,7 @@ import { NotifierService } from '../../shared/notifier/notifier.service';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
@@ -31,6 +34,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('pillInput') pillInput!: ElementRef<HTMLInputElement>;
 
   private readonly notifier = inject(NotifierService);
+  private dialog = inject(MatDialog);
 
   constructor(private headerService: HeaderService) {}
 
@@ -50,7 +54,6 @@ export class HeaderComponent implements OnInit {
             lat: position.coords.latitude,
             long: position.coords.longitude
           };
-          // Set the user location coordinates in the service
           this.headerService.userLocationCords.set(body);
           this.headerService.getUserLocation(body).subscribe({
             next: (data) => {
@@ -99,6 +102,26 @@ export class HeaderComponent implements OnInit {
       this.hasSearchText.set(false);
       this.pillInput.nativeElement.focus();
     }
+  }
+
+  openRegisterDialog(): void {
+    document.body.classList.add('dialog-open');
+    this.dialog.open(RegisterDialogComponent, {
+      position: {
+        right: '0',
+        top: '0'
+      },
+      height: '100%',
+      width: '50%',
+      // maxWidth: '500px',
+      // minWidth: '320px',
+      autoFocus: true,
+      disableClose: true,
+      hasBackdrop: true,
+      panelClass: 'slide-in-dialog'
+    }).afterClosed().subscribe(() => {
+      document.body.classList.remove('dialog-open');
+    });
   }
 
 }

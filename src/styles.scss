@@ -66,3 +66,39 @@ body {
 *, *::before, *::after { box-sizing: border-box; }
 
 /* You can add global styles to this file, and also import other style files */
+
+/* ─── Dialog Panel Classes ─────────────────────────────────────── */
+.slide-in-dialog {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  max-width: 100% !important;
+  width: 50% !important;
+  min-width: 320px !important;
+  max-width: 500px !important;
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.cdk-overlay-pane.slide-in-dialog {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+.dialog-open {
+  overflow: hidden;
+}
