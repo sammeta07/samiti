@@ -29,7 +29,7 @@ const REMEMBER_KEY = 'remember_login';
   styleUrl: './login.component.scss'
 })
 export class LoginDialogComponent implements OnInit {
-  emailOrMobile = '';
+  mobile = '';
   password = '';
   hidePassword = true;
   rememberMe = false;
@@ -49,7 +49,7 @@ export class LoginDialogComponent implements OnInit {
     if (saved) {
       try {
         const creds = JSON.parse(atob(saved));
-        this.emailOrMobile = creds.emailOrMobile || '';
+        this.mobile = creds.mobile || '';
         this.password = creds.password || '';
         this.rememberMe = true;
       } catch (e) {
@@ -64,14 +64,14 @@ export class LoginDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.rememberMe) {
-      const creds = btoa(JSON.stringify({ emailOrMobile: this.emailOrMobile, password: this.password }));
+      const creds = btoa(JSON.stringify({ mobile: this.mobile, password: this.password }));
       localStorage.setItem(REMEMBER_KEY, creds);
     } else {
       localStorage.removeItem(REMEMBER_KEY);
     }
 
     this.loginService.login({
-      emailOrMobile: this.emailOrMobile,
+      mobile: this.mobile,
       password: this.password
     }).subscribe({
       next: (response) => {

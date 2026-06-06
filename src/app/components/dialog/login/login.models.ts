@@ -1,7 +1,7 @@
 // ── Login Feature Models ───────────────────────────────────────────────
 
 export interface LoginPayload {
-  emailOrMobile: string;
+  mobile: string;
   password: string;
 }
 

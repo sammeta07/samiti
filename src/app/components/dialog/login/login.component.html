@@ -11,9 +11,9 @@
 
   <form class="login-form">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email or Mobile</mat-label>
-      <input matInput [(ngModel)]="emailOrMobile" name="emailOrMobile" placeholder="Ex. user@example.com or 9876543210" required>
-      <mat-icon matPrefix>{{ isEmail(emailOrMobile) ? 'email' : 'phone' }}</mat-icon>
+      <mat-label>Mobile</mat-label>
+      <input matInput [(ngModel)]="mobile" name="mobile" placeholder="Ex. 9876543210" required>
+      <mat-icon matPrefix>{{'phone' }}</mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -56,7 +56,7 @@
 <!-- LOGIN FOOTER -->
 <footer *ngIf="!isForgotPassword">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-stroked-button (click)="onSubmit()" [disabled]="!emailOrMobile || !password" type="button">
+  <button mat-stroked-button (click)="onSubmit()" [disabled]="!mobile || !password" type="button">
     <mat-icon>login</mat-icon> Login
   </button>
 </footer>
