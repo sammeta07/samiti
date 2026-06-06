@@ -9,6 +9,7 @@ import { HeaderService } from './header.service';
 import { LocationCoords } from './header.models';
 import { NotifierService } from '../../shared/notifier/notifier.service';
 import { RegisterDialogComponent } from '../dialog/register/register.component';
+import { LoginDialogComponent } from '../dialog/login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -95,7 +96,7 @@ export class HeaderComponent implements OnInit {
     this.hasSearchText.set(value.length > 0);
   }
 
-  clearSearch() {
+clearSearch() {
     if (this.pillInput?.nativeElement) {
       this.pillInput.nativeElement.value = '';
       this.hasSearchText.set(false);
@@ -114,6 +115,24 @@ export class HeaderComponent implements OnInit {
       width: '50%',
       // maxWidth: '500px',
       // minWidth: '320px',
+      autoFocus: true,
+      disableClose: true,
+      hasBackdrop: true,
+      panelClass: 'slide-in-dialog'
+    }).afterClosed().subscribe(() => {
+      document.body.classList.remove('dialog-open');
+    });
+  }
+
+  openLoginDialog(): void {
+    document.body.classList.add('dialog-open');
+    this.dialog.open(LoginDialogComponent, {
+      position: {
+        right: '0',
+        top: '0'
+      },
+      height: '100%',
+      width: '50%',
       autoFocus: true,
       disableClose: true,
       hasBackdrop: true,

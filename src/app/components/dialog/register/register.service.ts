@@ -12,7 +12,7 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  register(payload: RegisterPayload): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.baseUrl}auth/register`, payload);
+  register(body: RegisterPayload): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}${environment.endpoints.auth.register}`, body);
   }
 }
