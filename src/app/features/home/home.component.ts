@@ -5,6 +5,7 @@ import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { GroupListApiResponse, GroupListRequestBackend, GroupListResponse } from './home.models';
 import { HomeService } from './home.service';
 import { HeaderService } from '../../components/header/header.service';
@@ -13,13 +14,14 @@ import { NotifierService } from '../../shared/notifier/notifier.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
+imports: [
     CommonModule,
     FormsModule,
     MatExpansionModule,
     MatTabsModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -113,11 +115,30 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-  getTruncatedDescription(description: string | null): string {
+getTruncatedDescription(description: string | null): string {
     if (!description) return '';
     if (description.length > 100) {
       return description.substring(0, 100) + '...';
     }
     return description;
+  }
+
+  async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {
+    event.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(groupId);
+      const originalMessage = tooltip.message;
+      tooltip.message = `Group Id copied - ${groupId}`;
+      tooltip.show();
+      
+      setTimeout(() => {
+        tooltip.hide();
+        setTimeout(() => {
+          tooltip.message = originalMessage;
+        }, 500);
+      }, 2000);
+    } catch (err) {
+      this.notifier.error('Failed to copy Group Id');
+    }
   }
 }

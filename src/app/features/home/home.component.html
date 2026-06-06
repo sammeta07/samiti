@@ -62,10 +62,19 @@
                         </button>
                       </div>
                       <div class="div4">
-                        <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
+                        <button mat-button type="button"  class="groups-tab-action-btn">+ Join</button>
                       </div>
                       <div class="div5">{{ group.name }}</div>
-                      <div class="div6">Group ID: {{ group.group_id }}</div>
+<div class="div6">
+                        Group ID: {{ group.group_id }}
+                        <button mat-icon-button type="button" class="copy-id-btn"
+                          (click)="copyGroupId(group.group_id, $event, tooltip)"
+                          #tooltip="matTooltip"
+                          matTooltip="Copy Group ID"
+                          matTooltipPosition="above">
+                          <mat-icon>content_copy</mat-icon>
+                        </button>
+                      </div>
                       <div class="div7">
                         {{ getTruncatedDescription(group.description) }}
                       </div>
