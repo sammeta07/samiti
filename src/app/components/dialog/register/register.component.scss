@@ -3,6 +3,16 @@
   flex-direction: column;
   background: linear-gradient(135deg, var(--theme-surface-light) 0%, var(--theme-surface) 100%);
   overflow: hidden;
+  border-radius: 0 !important;
+}
+
+// Override Angular Material dialog panel styles
+::ng-deep .mat-mdc-dialog-surface {
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-mdc-dialogContainer {
+  border-radius: 0 !important;
 }
 
 /* Header */
