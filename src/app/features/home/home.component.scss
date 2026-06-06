@@ -264,7 +264,8 @@ mat-expansion-panel {
 /* ── Expansion panel header ── */
 ::ng-deep .mat-expansion-panel-header {
   background: var(--clr-surface) !important;
-  height: 56px !important;
+  height: 150px !important;
+  min-height: 150px !important;
   padding: 0 24px !important;
 }
 
@@ -425,3 +426,77 @@ mat-expansion-panel p {
     margin: 0;
   }
 }
+
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 100%;
+}
+    
+.div1 {
+    grid-column: span 1 / span 2;
+    grid-row: span 2 / span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--clr-border, #cbd5e1);
+}
+
+.group-logo-fallback {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--clr-accent, #f97316);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.div2 {
+    grid-column: span 11 / span 11;
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+
+.div3 {
+    grid-column: span 11 / span 11;
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+.div4 {
+    grid-column: span 2 / span 2;
+    grid-column-start: 12;
+    grid-row-start: 3;
+    justify-self: end;
+}
+
+.div5 {
+    grid-column: span 7 / span 7;
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+
+.div6 {
+    grid-column: span 4 / span 4;
+    grid-column-start: 9;
+    grid-row-start: 1;
+}
+
+.div7 {
+    grid-column: span 12 / span 12;
+    grid-row-start: 4;
+}
+        
