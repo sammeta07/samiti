@@ -1,4 +1,4 @@
-import { Component, inject, effect, viewChild, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, inject, effect, viewChild, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
@@ -28,6 +28,7 @@ export class HomeComponent implements AfterViewInit {
   private readonly headerService = inject(HeaderService);
   private readonly homeService = inject(HomeService);
   private readonly notifier = inject(NotifierService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
@@ -73,14 +74,16 @@ export class HomeComponent implements AfterViewInit {
       next: (data: GroupListApiResponse) => {
         console.log('Group list fetched successfully:', data);
         this.groupList = data.groups;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.notifier.error(error?.error?.message || error?.error || 'Failed to fetch groups');
+        this.cdr.detectChanges();
       }
     });
   }
 
-expandAll() {
+  expandAll() {
     if (this.accordion) {
       // Use Promise-based approach to ensure panels are ready
       Promise.resolve().then(() => {
