@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { RegisterService } from './register.service';
 import { NotifierService } from '../../../shared/notifier/notifier.service';
+import { RegisterPayload } from './register.models';
 
 @Component({
   selector: 'app-register-dialog',
@@ -36,25 +37,26 @@ export class RegisterDialogComponent {
   private notifier = inject(NotifierService);
   private registerService = inject(RegisterService);
 
-  constructor(public dialogRef: MatDialogRef<RegisterDialogComponent>) {}
+  constructor(public dialogRef: MatDialogRef<RegisterDialogComponent>) { }
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    this.registerService.register({
+    const payload: RegisterPayload = {
       name: this.name,
       email: this.email,
       mobile: this.mobile,
       password: this.password,
-    }).subscribe({
+    };
+    this.registerService.register(payload).subscribe({
       next: (result) => {
         this.notifier.success('Registration successful!');
-        this.dialogRef.close(true);
+        this.dialogRef.close(true); 
       },
       error: (err) => {
-        this.notifier.error(err?.error?.message || 'Registration failed. Please try again.');
+        this.notifier.error(err?.error.error || 'Registration failed. Please try again.');
       }
     });
   }

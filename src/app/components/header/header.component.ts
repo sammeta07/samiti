@@ -49,7 +49,6 @@ export class HeaderComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log('User location:', position.coords);
           const body: LocationCoords = {
             lat: position.coords.latitude,
             long: position.coords.longitude

@@ -119,8 +119,8 @@ export class HomeComponent implements AfterViewInit {
 
   getTruncatedDescription(description: string | null): string {
     if (!description) return '';
-    if (description.length > 140) {
-      return description.substring(0, 140) + '...';
+    if (description.length > 100) {
+      return description.substring(0, 100) + '...';
     }
     return description;
   }
