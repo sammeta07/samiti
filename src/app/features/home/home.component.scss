@@ -484,7 +484,48 @@ mat-expansion-panel p {
     font-weight: 500;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0.4rem;
+    flex-wrap: wrap;
 
+}
+
+.div2-separator {
+    width: 1px;
+    height: 14px;
+    background: var(--clr-border, #cbd5e1);
+    flex-shrink: 0;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.since-pill {
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--clr-accent, #f97316);
+}
+
+.contact-pill {
+    background: rgba(100, 116, 139, 0.15);
+    color: var(--clr-text-muted, #64748b);
+
+    mat-icon {
+        font-size: 0.7rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        color: #22c55e;
+        margin-right: 2px;
+    }
 }
 
 .div3 {
@@ -497,6 +538,15 @@ mat-expansion-panel p {
     color: var(--clr-text-muted, #64748b);
        width: 100%;
     height: 100%;
+
+    mat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        width: 1rem;
+        height: 1rem;
+    }
 }
 
 .map-arrow-btn {
