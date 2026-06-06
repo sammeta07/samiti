@@ -53,13 +53,13 @@
                           {{ group.contact_numbers.join(', ') }}
 </span>
                       </div>
-                      <div class="div3">
+<div class="div3">
                         <mat-icon>place</mat-icon>
                         {{ group.area }}
-                        <!-- <button mat-icon-button type="button" class="map-arrow-btn"
-                          (click)="openGoogleMaps(group); $event.stopPropagation()">
-                          <mat-icon>directions</mat-icon>
-                        </button> -->
+                        <span class="distance-pill">
+                          <mat-icon>near_me</mat-icon>
+                          {{ getDistanceFromUser(group) }}
+                        </span>
                       </div>
                       <div class="div4">
                         <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>

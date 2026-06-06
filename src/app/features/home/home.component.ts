@@ -117,12 +117,17 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-  getTruncatedDescription(description: string | null): string {
+getTruncatedDescription(description: string | null): string {
     if (!description) return '';
     if (description.length > 100) {
       return description.substring(0, 100) + '...';
     }
     return description;
+  }
+
+  getDistanceFromUser(group: GroupListResponse): string {
+
+    return 'to be implemented';
   }
 
   async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {

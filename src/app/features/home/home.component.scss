@@ -538,7 +538,6 @@ mat-expansion-panel p {
     color: var(--clr-text-muted, #64748b);
     width: 100%;
     height: 100%;
-    background-color: #ea580c;
 
     mat-icon {
         display: flex;
@@ -605,6 +604,28 @@ mat-expansion-panel p {
     white-space: nowrap;
     background: rgba(100, 116, 139, 0.12);
     color: var(--clr-text-light, #94a3b8);
+}
+
+.distance-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--clr-accent, #f97316);
+    margin-left: auto;
+    justify-content: flex-end;
+
+    mat-icon {
+        font-size: 0.75rem;
+        width: 0.75rem;
+        height: 0.75rem;
+        line-height: 0.75rem;
+    }
 }
 
 .copy-id-btn {
