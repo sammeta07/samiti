@@ -34,6 +34,7 @@ export interface GroupListResponse {
   admins: GroupAdmin[];
   created_at: string;
   logo: string | null;
+  distance: number; // Distance from user in meters
 }
 
 export interface GroupListApiResponse {

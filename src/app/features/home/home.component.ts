@@ -57,7 +57,7 @@ export class HomeComponent implements AfterViewInit {
   onRadiusChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.selectedGroupRadius = Number(target.value);
-    this.getGroupListByRange();
+this.getGroupListByRange();
   }
 
   getGroupListByRange() {
@@ -117,7 +117,7 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-getTruncatedDescription(description: string | null): string {
+  getTruncatedDescription(description: string | null): string {
     if (!description) return '';
     if (description.length > 100) {
       return description.substring(0, 100) + '...';
@@ -126,8 +126,16 @@ getTruncatedDescription(description: string | null): string {
   }
 
   getDistanceFromUser(group: GroupListResponse): string {
-
-    return 'xyz Km from you';
+    if (group.distance === undefined || group.distance === null) {
+      return '';
+    }
+    // Distance is returned in meters from backend
+    const distanceMeters = group.distance;
+    if (distanceMeters < 1000) {
+      return `${Math.round(distanceMeters)} m`;
+    } else {
+      return `${(distanceMeters / 1000).toFixed(1)} km`;
+    }
   }
 
   async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {

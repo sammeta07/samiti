@@ -1,13 +1,16 @@
-# Notifier Improvements TODO
+# TODO: Add Distance Property to Group Response
 
-## Tasks:
-- [x] 1. Add progress bar at bottom of toast - pause on hover
-- [x] 2. Add different colors/styles to each type (enhance existing)
-- [x] 3. Add icon for different types (success, error, warn, info)
-- [x] 4. Add icon button to copy notification message
+## Task
+Calculate distance from user's location to each group and return in response.
 
-## Implementation Order:
-1. Update notifier.component.html - add progress bar, icons, copy button ✅
-2. Update notifier.component.scss - add progress bar styles, icon styles, pause animation ✅
-3. Update notifier.component.ts - add copy to clipboard functionality ✅
-4. Update notifier.service.ts - add timer control methods for pause/resume ✅
+## Steps Completed:
+- [x] Analyze current implementation
+- [x] Understand Group interface and request/response types
+- [x] Create plan and get user confirmation
+- [x] Update Group interface in groups-models.ts - Add required distance property
+- [x] Update groupItemSchema to include distance in required fields
+- [x] Fix SQL query in getAll.ts - Proper JSON extraction and distance in meters
+
+## Files Edited:
+1. E:\samiti-app\BE2\src\types\groups-models.ts
+2. E:\samiti-app\BE2\src\routes\group\getAll.ts

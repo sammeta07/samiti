@@ -37,7 +37,10 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-__screenshots__/
+__screenshots__
+
+# TODO
+TODO.md
 
 # Environment / secrets — never commit API keys or local config
 .env
