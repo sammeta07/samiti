@@ -242,6 +242,25 @@
   }
 }
 
+.expand-collapse-btn {
+  min-width: auto !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  padding: 0 0.65rem !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--clr-border) !important;
+  color: var(--clr-text-muted) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+
+  &:hover {
+    border-color: var(--clr-accent) !important;
+    color: var(--clr-accent) !important;
+    background: rgba(249, 115, 22, 0.08) !important;
+  }
+}
+
 /* ── Scrollable content area inside each group tab ── */
 .groups-scroll {
   height: 100%;
@@ -492,10 +511,10 @@ mat-expansion-panel p {
 
 }
 
-.div2-separator {
+.since-line {
     width: 1px;
     height: 14px;
-    background: var(--clr-border, #cbd5e1);
+    background: var(--clr-text-light, #0c1219);
     flex-shrink: 0;
 }
 
@@ -510,8 +529,8 @@ mat-expansion-panel p {
 }
 
 .since-pill {
-    background: rgba(249, 115, 22, 0.1);
-    color: var(--clr-accent, #f97316);
+    background: rgba(100, 116, 139, 0.12);
+    color: var(--clr-text-muted, #64748b);
 }
 
 .contact-pill {
@@ -581,6 +600,15 @@ mat-expansion-panel p {
     line-height: 1.2;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.name-line {
+    width: 100%;
+    height: 1px;
+    background: var(--clr-text-border, #cbd5e1);
+    margin-top: 0.25rem;
 }
 
 .div6 {

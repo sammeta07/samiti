@@ -21,8 +21,8 @@
       </div>
       <div class="groups-tabs-shell">
         <div class="groups-tabs-header-actions">
-          <button mat-button type="button" class="groups-tab-action-btn" (click)="expandAll()">Expand All</button>
-          <button mat-button type="button" class="groups-tab-action-btn" (click)="collapseAll()">Collapse All</button>
+          <button mat-button type="button" class="expand-collapse-btn" (click)="expandAll()">Expand All</button>
+          <button mat-button type="button" class="expand-collapse-btn" (click)="collapseAll()">Collapse All</button>
         </div>
         <mat-tab-group class="groups-tabs" animationDuration="200ms">
           <mat-tab>
@@ -46,14 +46,14 @@
                       </div>
                       <div class="div2">
                         <span class="pill since-pill">since - {{ group.since }}</span>
-                        <span class="div2-separator"></span>
+                        <span class="since-line"></span>
 
                         <span class="pill contact-pill">
                           <mat-icon>phone</mat-icon>
                           {{ group.contact_numbers.join(', ') }}
-</span>
+                        </span>
                       </div>
-<div class="div3">
+                      <div class="div3">
                         <mat-icon>place</mat-icon>
                         {{ group.area }}
                         <span class="distance-pill">
@@ -61,11 +61,15 @@
                           <mat-icon>near_me</mat-icon>
                         </span>
                       </div>
+                      <span class="name-line"></span>
                       <div class="div4">
                         <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
                       </div>
-                      <div class="div5">{{ group.name }}</div>
-<div class="div6">
+                      <div class="div5">
+                        {{ group.name }}
+                        <span class="name-line"></span>
+                      </div>
+                      <div class="div6">
                         <div class="group-id-pill">
                           <span>Group ID: {{ group.group_id }}</span>
                           <button mat-icon-button type="button" class="copy-id-btn"
