@@ -127,7 +127,7 @@ getTruncatedDescription(description: string | null): string {
 
   getDistanceFromUser(group: GroupListResponse): string {
 
-    return 'to be implemented';
+    return 'xyz Km from you';
   }
 
   async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {
@@ -149,7 +149,7 @@ getTruncatedDescription(description: string | null): string {
       setTimeout(() => {
         this.copiedGroupId = null;
         this.cdr.detectChanges();
-      }, 5000);
+      }, 2000);
 
       // Hide tooltip after 2 seconds
       setTimeout(() => {

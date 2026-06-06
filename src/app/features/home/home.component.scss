@@ -615,8 +615,6 @@ mat-expansion-panel p {
     font-size: 0.65rem;
     font-weight: 600;
     white-space: nowrap;
-    background: rgba(249, 115, 22, 0.1);
-    color: var(--clr-accent, #f97316);
     margin-left: auto;
     justify-content: flex-end;
 
@@ -625,6 +623,7 @@ mat-expansion-panel p {
         width: 0.75rem;
         height: 0.75rem;
         line-height: 0.75rem;
+        color: var(--clr-accent, #f97316);
     }
 }
 
