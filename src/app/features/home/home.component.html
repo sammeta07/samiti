@@ -65,9 +65,9 @@
                         <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
                       </div>
                       <div class="div5">{{ group.name }}</div>
-                      <div class="div6">
-                        <span class="group-id-pill">
-                          Group ID: {{ group.group_id }}
+<div class="div6">
+                        <div class="group-id-pill">
+                          <span>Group ID: {{ group.group_id }}</span>
                           <button mat-icon-button type="button" class="copy-id-btn"
                             (click)="copyGroupId(group.group_id, $event, tooltip)" #tooltip="matTooltip"
                             matTooltip="Copy Group ID" matTooltipPosition="above">
@@ -77,7 +77,7 @@
                             <mat-icon>content_copy</mat-icon>
                             }
                           </button>
-                        </span>
+                        </div>
                       </div>
                       <div class="div7">
                         {{ getTruncatedDescription(group.description) }}
@@ -91,7 +91,7 @@
               @if (0) {
               <div class="col-empty">
                 <mat-icon>groups</mat-icon>
-                <p>No groups found with in {{selectedGroupRadius}} km. Please increase the Range.</p>
+                <p>No groups found with in {{selectedGroupRadius}} km.</p>
               </div>
               }
             </div>

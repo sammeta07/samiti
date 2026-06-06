@@ -604,6 +604,14 @@ mat-expansion-panel p {
     white-space: nowrap;
     background: rgba(100, 116, 139, 0.12);
     color: var(--clr-text-light, #94a3b8);
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
 }
 
 .distance-pill {
