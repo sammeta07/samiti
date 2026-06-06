@@ -14,7 +14,7 @@ import { NotifierService } from '../../shared/notifier/notifier.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-imports: [
+  imports: [
     CommonModule,
     FormsModule,
     MatExpansionModule,
@@ -39,6 +39,7 @@ export class HomeComponent implements AfterViewInit {
   selectedGroupRadius: number = 5;
   selectedProgramRadius: number = 5;
   groupList: GroupListResponse[] = [];
+  copiedGroupId: string | null = null;
 
   constructor() {
     // Watch for changes in user location and fetch groups when available
@@ -116,7 +117,7 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-getTruncatedDescription(description: string | null): string {
+  getTruncatedDescription(description: string | null): string {
     if (!description) return '';
     if (description.length > 100) {
       return description.substring(0, 100) + '...';
@@ -127,11 +128,25 @@ getTruncatedDescription(description: string | null): string {
   async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {
     event.stopPropagation();
     try {
+      // Set copied state to show green check icon
+      this.copiedGroupId = groupId;
+      this.cdr.detectChanges();
+
+      // Copy to clipboard
       await navigator.clipboard.writeText(groupId);
+
+      // Update tooltip message
       const originalMessage = tooltip.message;
       tooltip.message = `Group Id copied - ${groupId}`;
       tooltip.show();
-      
+
+      // After 5 seconds, revert to copy icon
+      setTimeout(() => {
+        this.copiedGroupId = null;
+        this.cdr.detectChanges();
+      }, 5000);
+
+      // Hide tooltip after 2 seconds
       setTimeout(() => {
         tooltip.hide();
         setTimeout(() => {
@@ -140,6 +155,8 @@ getTruncatedDescription(description: string | null): string {
       }, 2000);
     } catch (err) {
       this.notifier.error('Failed to copy Group Id');
+      this.copiedGroupId = null;
+      this.cdr.detectChanges();
     }
   }
 }

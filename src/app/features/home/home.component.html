@@ -27,8 +27,8 @@
         <mat-tab-group class="groups-tabs" animationDuration="200ms">
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon>adjust</mat-icon>&nbsp;
-              <span>In {{selectedGroupRadius}} km &nbsp;</span>
+              <mat-icon>adjust</mat-icon>
+              <span>In {{selectedGroupRadius}} km</span>
               <span class="tab-badge">{{ groupList.length }}</span>
             </ng-template>
             <div class="groups-scroll">
@@ -51,29 +51,33 @@
                         <span class="pill contact-pill">
                           <mat-icon>phone</mat-icon>
                           {{ group.contact_numbers.join(', ') }}
-                        </span>
+</span>
                       </div>
                       <div class="div3">
                         <mat-icon>place</mat-icon>
                         {{ group.area }}
-                        <button mat-icon-button type="button" class="map-arrow-btn"
+                        <!-- <button mat-icon-button type="button" class="map-arrow-btn"
                           (click)="openGoogleMaps(group); $event.stopPropagation()">
                           <mat-icon>directions</mat-icon>
-                        </button>
+                        </button> -->
                       </div>
                       <div class="div4">
-                        <button mat-button type="button"  class="groups-tab-action-btn">+ Join</button>
+                        <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
                       </div>
                       <div class="div5">{{ group.name }}</div>
-<div class="div6">
-                        Group ID: {{ group.group_id }}
-                        <button mat-icon-button type="button" class="copy-id-btn"
-                          (click)="copyGroupId(group.group_id, $event, tooltip)"
-                          #tooltip="matTooltip"
-                          matTooltip="Copy Group ID"
-                          matTooltipPosition="above">
-                          <mat-icon>content_copy</mat-icon>
-                        </button>
+                      <div class="div6">
+                        <span class="group-id-pill">
+                          Group ID: {{ group.group_id }}
+                          <button mat-icon-button type="button" class="copy-id-btn"
+                            (click)="copyGroupId(group.group_id, $event, tooltip)" #tooltip="matTooltip"
+                            matTooltip="Copy Group ID" matTooltipPosition="above">
+                            @if (copiedGroupId === group.group_id) {
+                            <mat-icon class="copy-icon-success">done_all </mat-icon>
+                            } @else {
+                            <mat-icon>content_copy</mat-icon>
+                            }
+                          </button>
+                        </span>
                       </div>
                       <div class="div7">
                         {{ getTruncatedDescription(group.description) }}
