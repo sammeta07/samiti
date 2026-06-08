@@ -71,8 +71,8 @@ export class LoginDialogComponent implements OnInit {
     }
 
     this.loginService.login({
-      mobile: this.mobile,
-      password: this.password
+      mobile: this.mobile.trim(),
+      password: this.password.trim()
     }).subscribe({
       next: (response) => {
         this.loginService.saveUserData(response.data);

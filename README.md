@@ -1,117 +1,120 @@
-# Samiti
+## 🛠️ Tech Stack & Role Setup
+- **Frontend:** Angular
+- **Backend:** Fastify (Node.js) - Chosen for high performance and native JSON schema validation.
+- **Database:** MySQL
+- **AI Collaborator Email:** hariprasad8976@gmail.com
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+---
 
-## Development server
+## 👤 1. System Access & Roles Hierarchy
 
-To start a local development server, run:
+The application enforces a strict, multi-level role boundaries mapping:
 
-```bash
-ng serve
-```
+1. **App Base Level:**
+   - `AUTH_USER`: Any standard registered user who logs into the app.
+2. **Group Level:**
+   - `GROUP_MEMBER`: A user whose request to join a specific group has been approved by an admin.
+   - `GROUP_ADMIN`: The creator of the group, as well as any approved `GROUP_MEMBER` promoted to admin by an existing admin. All admins hold equal management powers.
+3. **Event Level:**
+   - There is **no** `EVENT_CREATOR` role. Inside an event, users hold specific governance designations: **`ADHYAKSH`**, **`UPADYAKSH`**, **`CASHIER`**, or **`SACHIV`**.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🔁 2. Join Request & Escalation Workflows
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Group-Level Pipeline:
+- An `AUTH_USER` sends a "Join Request" to a group from the UI.
+- Any current `GROUP_ADMIN` can **ACCEPT**, **REJECT**, or **HOLD** the request.
+- On **ACCEPT**, the user is written into the database as a `GROUP_MEMBER`.
+- A `GROUP_ADMIN` can later promote a `GROUP_MEMBER` to a `GROUP_ADMIN`.
 
-```bash
-ng generate component component-name
-```
+### Event-Level Pipeline:
+- A `GROUP_MEMBER` cannot be assigned an event designation directly.
+- They must explicitly submit a request to join/participate in a specific event.
+- Once accepted by the event handlers, they become an active event member and can be designated a post (e.g., `CASHIER`).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 📅 3. Event Internal Structure: Programs vs Tasks
 
-## Building
+Inside any given Event, data splits into two entirely separate realms:
 
-To build the project run:
+### A. Programs (Public-Facing Stream)
+- **Visibility:** Rendered on the Home Page's right section/live feed for the public.
+- **Access Control:** Can **only** be Created, Edited, or Deleted by the event **`ADHYAKSH`**.
+- **Required Data:** Program Type, Location Coordinates (Latitude & Longitude), and Photos are strictly mandatory.
+- **UI Binding:** The `type` field dynamically binds as label names in Angular's `mat-tab` navigation components.
 
-```bash
-ng build
-```
+### B. Tasks & Child Tasks (Internal Operational Stream)
+- **Visibility:** Hidden from the public feed; visible only inside the management Dashboard.
+- **Structure:** Hierarchical parent-child mapping (e.g., Main Task: Pandal Fabrication ➔ Child Task: Bamboo Binding).
+- **The OWNER Rule:** Every task/child task must have a single designated `OWNER` responsible for execution.
+- **Strict Security Constraint:** The `OWNER` **must** be an approved member of that specific event (whose event join request was accepted). Random group members cannot own event tasks.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🔐 4. Core Security Middleware
+- **`checkGroupAdmin`**: A Fastify preHandler gatekeeper. Whenever a group or event modification request arrives, this middleware queries the database to confirm if the executing user's ID maps as a `GROUP_ADMIN` for that specific `group_id`. If unauthorized, it immediately terminates the process with a `403 Forbidden` response without wasting database overhead.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+---
 
-```bash
-ng test
-```
+## 📦 5. Finalized Login API JSON Response Structure
 
-## Running end-to-end tests
+A clean, non-flat, highly intuitive true hierarchical structure that maps the precise relationship of groups down to events, public programs, and internal tasks:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## AI Rules
-
-See `AI_RULES.md` for repository-specific AI guidance. When giving instructions to an AI assistant, please ensure the assistant reads `AI_RULES.md` first and follows the guidance there. If any conflict or ambiguity exists, the assistant should ask the user for clarification.
-
-## Prompt rules
-1) Core Prompt Format (Best Template)
-Template:
-
-Goal: (Kya karna hai)
-Context: (Project/tech stack/app ka short context)
-Input/Constraints: (Koi fixed rules, file paths, time/size limits, tech restrictions)
-Expected Output: (Final output kaisa chahiye—code, steps, links, format)
-Success Criteria: (Kaise pata chalega kaam sahi hua)
-Examples (optional): (Sample input/output)
-Files/Locations (agar apply ho): (Kon si files read/edit karni hain)
-Example (structure):
-
-Goal: …
-Context: …
-Constraints: …
-Expected Output: …
-Success Criteria: …
-Files: …
-2) “Always Include” Checklist (Quick)
-Language: (Hindi/English—jo chahiye)
-Tech: (framework/version—e.g., Angular, Node, React, TS)
-Scope: (sirf frontend? backend bhi?)
-Do/Don’t: (kya avoid karna hai)
-Format: (single file / multiple files / PR style / step-by-step)
-Verification: (tests, build, screenshot, command to run)
-3) Clarity Rules (Prompt ko strong banane ke tips)
-“Make it work” mat likho → “Bug: X, Actual: Y, Expected: Z” likho
-“Improve” mat likho → “Improve: performance / readability / security” specify karo
-Agar code chahiye:
-“Provide complete file content” ya “diff only” clearly bolo
-Agar changes multiple files me hon:
-“Files: A, B, C” mention karo (warna main repo search karke decide karunga)
-4) Output Style Selectors (Choose one line)
-You can add one of these at the end:
-
-“Output format: only final code”
-“Output format: plan + then code”
-“Output format: step-by-step commands + verification”
-“Output format: minimal changes (diff style)”
-5) Verification Request (Recommended)
-Always include:
-
-“How to verify: (run command / expected behavior / test steps)”
-6) Your “User Must Follow” Rule (Which you asked me to tell you)
-Aap jab bhi mujhe prompt denge, iss exact structure/level me dena try karna:
-
-Goal
-Context
-Constraints
-Expected Output
-Success Criteria
-(Optional) Files / Examples / Verification
+```json
+{
+  "status": "success",
+  "data": {
+    "user_id": 101,
+    "name": "Hari Prasad",
+    "email": "hariprasad8976@gmail.com",
+    "base_role": "AUTH_USER",
+   
+    "groups": [
+      {
+        "group_id": 15,
+        "group_name": "Charoda Yuva Mandal",
+        "is_group_admin": true,
+        "events": [
+          {
+            "event_id": 501,
+            "event_name": "Durga Puja 2026",
+            "designation": "ADHYAKSH",
+           
+            "programs": [
+              {
+                "program_id": 901,
+                "program_name": "Garba Night 2026",
+                "type": "Dandiya",
+                "latitude": 21.2143,
+                "longitude": 81.4322,
+                "photos": ["garba_main.jpg"],
+                "status": "Upcoming"
+              }
+            ],
+           
+            "tasks": [
+              {
+                "task_id": 4001,
+                "task_title": "Pandal Fabrication",
+                "task_owner_id": 105,
+                "task_owner_name": "Amit Verma",
+                "status": "In_Progress",
+                "child_tasks": [
+                  {
+                    "child_task_id": 40011,
+                    "title": "Bamboo structure binding",
+                    "owner_id": 110,
+                    "owner_name": "Suresh Kumar",
+                    "status": "Pending"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

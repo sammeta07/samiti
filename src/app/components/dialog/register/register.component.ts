@@ -45,10 +45,10 @@ export class RegisterDialogComponent {
 
   onSubmit(): void {
     const payload: RegisterPayload = {
-      name: this.name,
-      email: this.email,
-      mobile: this.mobile,
-      password: this.password,
+      name: this.name.trim(),
+      email: this.email.trim(),
+      mobile: this.mobile.trim(),
+      password: this.password.trim(),
     };
     this.registerService.register(payload).subscribe({
       next: (result) => {

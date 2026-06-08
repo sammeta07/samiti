@@ -75,9 +75,9 @@ export class HomeComponent implements AfterViewInit {
     };
 
     this.homeService.getGroupListByRange(body).subscribe({
-      next: (data: GroupListApiResponse) => {
-        console.log('Group list fetched successfully:', data);
-        this.groupList = data.groups;
+      next: (res: GroupListApiResponse) => {
+        console.log('Group list fetched successfully:', res);
+        this.groupList = res.data;
         this.cdr.detectChanges();
       },
       error: (error) => {

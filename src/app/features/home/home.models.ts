@@ -38,7 +38,9 @@ export interface GroupListResponse {
 }
 
 export interface GroupListApiResponse {
-  groups: GroupListResponse[];
+  message: string;
+  statusCode: number;
+  data: GroupListResponse[];
 }
 
 
