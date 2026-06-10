@@ -4,6 +4,8 @@ export interface RegisterPayload {
     name: string;
     email: string;
     mobile: string;
+    gender: string;
+    dateOfBirth: string;
     password: string;
 }
 

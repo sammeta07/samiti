@@ -27,6 +27,23 @@
       <mat-icon matPrefix>phone</mat-icon>
     </mat-form-field>
 
+    <div class="gender-group">
+      <label class="gender-label">Gender</label>
+      <mat-radio-group [(ngModel)]="gender" name="gender" required>
+        <mat-radio-button value="male">Male</mat-radio-button>
+        <mat-radio-button value="female">Female</mat-radio-button>
+        <mat-radio-button value="other">Other</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date of Birth</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="dateOfBirth" name="dateOfBirth" required>
+      <mat-icon matPrefix>cake</mat-icon>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Password</mat-label>
       <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" name="password" required>

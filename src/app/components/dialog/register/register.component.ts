@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RegisterService } from './register.service';
 import { NotifierService } from '../../../shared/notifier/notifier.service';
 import { RegisterPayload } from './register.models';
@@ -21,6 +23,8 @@ import { RegisterPayload } from './register.models';
     MatFormFieldModule,
     FormsModule,
     MatIconModule,
+    MatRadioModule,
+    MatDatepickerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -29,6 +33,8 @@ export class RegisterDialogComponent {
   name = '';
   email = '';
   mobile = '';
+  gender = 'male';
+  dateOfBirth: Date | null = null;
   password = '';
   confirmPassword = '';
   hidePassword = true;
@@ -48,8 +54,11 @@ export class RegisterDialogComponent {
       name: this.name.trim(),
       email: this.email.trim(),
       mobile: this.mobile.trim(),
+      gender: this.gender,
+      dateOfBirth: this.dateOfBirth ? this.dateOfBirth.toISOString().split('T')[0] : '',
       password: this.password.trim(),
     };
+    console.log('Submitting registration with payload:', payload);
     this.registerService.register(payload).subscribe({
       next: (result) => {
         this.notifier.success('Registration successful!');
@@ -66,6 +75,6 @@ export class RegisterDialogComponent {
   }
 
   get isFormValid(): boolean {
-    return !!this.name && !!this.email && !!this.mobile && !!this.password && !!this.confirmPassword && this.passwordsMatch;
+    return !!this.name && !!this.email && !!this.mobile && !!this.gender && !!this.dateOfBirth && !!this.password && !!this.confirmPassword && this.passwordsMatch;
   }
 }
