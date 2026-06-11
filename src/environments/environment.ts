@@ -3,7 +3,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: 'http://192.168.29.6:3000/api/v1',
 
   // Centralized endpoints for easy maintenance
   endpoints: {

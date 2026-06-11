@@ -10,7 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RegisterService } from './register.service';
 import { NotifierService } from '../../../shared/notifier/notifier.service';
-import { RegisterPayload } from './register.models';
+import { RegisterPayload, RegisterResponse } from './register.models';
 
 @Component({
   selector: 'app-register-dialog',
@@ -50,7 +50,7 @@ export class RegisterDialogComponent {
   }
 
   onSubmit(): void {
-    const payload: RegisterPayload = {
+    const body: RegisterPayload = {
       name: this.name.trim(),
       email: this.email.trim(),
       mobile: this.mobile.trim(),
@@ -58,9 +58,10 @@ export class RegisterDialogComponent {
       dateOfBirth: this.dateOfBirth ? this.dateOfBirth.toISOString().split('T')[0] : '',
       password: this.password.trim(),
     };
-    console.log('Submitting registration with payload:', payload);
-    this.registerService.register(payload).subscribe({
-      next: (result) => {
+    console.log('Submitting registration with payload:', body);
+    this.registerService.register(body).subscribe({
+      next: (result : RegisterResponse) => {
+        console.log(result);
         this.notifier.success('Registration successful!');
         this.dialogRef.close(true); 
       },

@@ -10,15 +10,15 @@ export interface RegisterPayload {
 }
 
 export interface RegisterResponse {
-  id: number;
+  statusCode: number;
   message: string;
-  data?: {
+  data: {
     id: number;
     email: string;
-    mobile: string;
     name: string;
-    groupRoles: string[];
-    eventRoles: string[];
+    mobile: string;
+    dateOfBirth: string;
+    gender: string;
   };
 }
 

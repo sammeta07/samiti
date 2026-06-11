@@ -16,7 +16,7 @@ export class LoginService {
     return this.http.post<LoginResponse>(`${this.baseUrl}${environment.endpoints.auth.login}`, body);
   }
 
-  saveUserData(data: LoginResponse['data']): void {
+  saveUserData(data: LoginResponse): void {
     localStorage.setItem('user', JSON.stringify(data));
     localStorage.setItem('token', data.token);
   }

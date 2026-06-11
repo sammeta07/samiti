@@ -9,11 +9,11 @@
 <div class="dialog-body" *ngIf="!isForgotPassword">
   <p class="login-instruction">Please enter your credentials to continue.</p>
 
-  <form class="login-form">
+<form class="login-form">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Mobile</mat-label>
-      <input matInput [(ngModel)]="mobile" name="mobile" placeholder="Ex. 9876543210" required>
-      <mat-icon matPrefix>{{'phone' }}</mat-icon>
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" name="email" placeholder="Ex. user@example.com" required email>
+      <mat-icon matPrefix>email</mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -56,7 +56,7 @@
 <!-- LOGIN FOOTER -->
 <footer *ngIf="!isForgotPassword">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-stroked-button (click)="onSubmit()" [disabled]="!mobile || !password" type="button">
+  <button mat-stroked-button (click)="onSubmit()" [disabled]="!email || !password" type="button">
     <mat-icon>login</mat-icon> Login
   </button>
 </footer>
