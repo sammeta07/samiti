@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { NotifierService } from '../../../shared/notifier/notifier.service';
 
@@ -38,6 +39,7 @@ export class LoginDialogComponent implements OnInit {
   resetEmailSent = false;
 
   private notifier = inject(NotifierService);
+  private router = inject(Router);
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
@@ -72,12 +74,11 @@ export class LoginDialogComponent implements OnInit {
 
     this.loginService.login({
       email: this.email.trim(),
-      password: this.password.trim()
+      password: this.password.trim(),
     }).subscribe({
       next: (response) => {
-        this.loginService.saveUserData(response);
-        this.notifier.success('Login successful!');
         this.dialogRef.close(true);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.notifier.error(err?.error?.message || 'Login failed. Please try again.');
