@@ -17,25 +17,7 @@ export class LoginService {
   }
 
   saveUserData(data: LoginResponse): void {
-    localStorage.setItem('user', JSON.stringify(data));
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('token', JSON.stringify(data.token));
   }
 
-  getUserData(): LoginResponse['data'] | null {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
-  }
-
-  clearUserData(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-  }
 }
