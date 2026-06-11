@@ -165,3 +165,45 @@ footer {
     }
   }
 }
+
+.custom-outline-field {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-bottom: 16px;
+  
+  /* Mimics the Angular Material M3/M2 Outline styling */
+  border: 0.05rem solid rgba(0, 0, 0, 0.583); 
+  border-radius: 4px;
+  
+  /* Smooth transition when interacting */
+  transition: border-color 200ms cubic-bezier(0.0, 0, 0.2, 1);
+
+  &:focus-within {
+    /* Uses Material primary color on focus */
+    border: 2px solid #3f51b5; 
+    padding: 15px; /* Adjusts layout for the 2px border gap */
+
+    .custom-label {
+      color: #3f51b5;
+    }
+  }
+}
+
+.custom-label {
+  position: absolute;
+  top: -13px;
+  left: 10px;
+  background: white; /* Blocks out the border line behind the text */
+  padding: 0 4px;
+  font-size: 19px;
+  color: #00458f;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-radio-group {
+  display: flex;
+  gap: 16px; /* Spacing between the radio inputs */
+  margin-top: 4px;
+}

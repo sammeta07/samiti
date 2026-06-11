@@ -1,13 +1,12 @@
 <header>
   <h2>Register</h2>
+  <span class="register-instruction">Create a new account to get started.</span>
   <button mat-icon-button type="button" (click)="onCancel()" aria-label="Close dialog">
     <mat-icon>close</mat-icon>
   </button>
 </header>
 
 <div class="dialog-body">
-  <p class="register-instruction">Create a new account to get started.</p>
-
   <form class="register-form">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Full Name</mat-label>
@@ -27,8 +26,17 @@
       <mat-icon matPrefix>phone</mat-icon>
     </mat-form-field>
 
-    <div class="gender-group">
+    <!-- <div class="gender-group">
       <label class="gender-label">Gender</label>
+      <mat-radio-group [(ngModel)]="gender" name="gender" required>
+        <mat-radio-button value="male">Male</mat-radio-button>
+        <mat-radio-button value="female">Female</mat-radio-button>
+        <mat-radio-button value="other">Other</mat-radio-button>
+      </mat-radio-group>
+    </div> -->
+
+    <div class="custom-outline-field">
+      <span class="custom-label">Gender*</span>
       <mat-radio-group [(ngModel)]="gender" name="gender" required>
         <mat-radio-button value="male">Male</mat-radio-button>
         <mat-radio-button value="female">Female</mat-radio-button>
@@ -48,8 +56,8 @@
       <mat-label>Password</mat-label>
       <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" name="password" required>
       <mat-icon matPrefix>lock</mat-icon>
-      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword" type="button">
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePassword" type="button">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
