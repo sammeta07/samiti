@@ -10,6 +10,7 @@ import { GroupListApiResponse, GroupListRequestBackend, GroupListResponse } from
 import { HomeService } from './home.service';
 import { HeaderService } from '../../components/header/header.service';
 import { NotifierService } from '../../shared/notifier/notifier.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-home',

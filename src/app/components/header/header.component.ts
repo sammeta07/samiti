@@ -11,6 +11,8 @@ import { NotifierService } from '../../shared/notifier/notifier.service';
 import { RegisterDialogComponent } from '../dialog/register/register.component';
 import { LoginDialogComponent } from '../dialog/login/login.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-header',
@@ -27,19 +29,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  locationName = signal<string>('Locating...');
-  isLoading = signal<boolean>(true);
-  isSearchFocused = signal<boolean>(false);
-  hasSearchText = signal<boolean>(false);
-  isLoggedIn = signal<boolean>(localStorage.getItem('is_logged_in') === 'true');
-
   @ViewChild('pillInput') pillInput!: ElementRef<HTMLInputElement>;
 
   private readonly notifier = inject(NotifierService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
+  locationName = signal<string>('Locating...');
+  isLoading = signal<boolean>(true);
+  isSearchFocused = signal<boolean>(false);
+  hasSearchText = signal<boolean>(false);
+  isLoggedIn = this.authService.isLoggedIn;
   constructor(private headerService: HeaderService) {}
 
   ngOnInit() {

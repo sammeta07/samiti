@@ -6,7 +6,8 @@
 </header>
 
 <!-- LOGIN VIEW -->
-<div class="dialog-body" *ngIf="!isForgotPassword">
+@if (!isForgotPassword) {
+<div class="dialog-body">
   <p class="login-instruction">Please enter your credentials to continue.</p>
 
 <form class="login-form">
@@ -33,11 +34,13 @@
         Forgot password?
       </button>
     </div>
-  </form>
+</form>
 </div>
+}
 
 <!-- FORGOT PASSWORD VIEW -->
-<div class="dialog-body" *ngIf="isForgotPassword">
+@if (isForgotPassword) {
+<div class="dialog-body">
   <p class="login-instruction">Enter your registered email and we'll send you a reset link.</p>
 
   <form class="login-form">
@@ -47,22 +50,28 @@
       <mat-icon matPrefix>email</mat-icon>
     </mat-form-field>
 
-    <p class="reset-success" *ngIf="resetEmailSent">
+@if (resetEmailSent) {
+    <p class="reset-success">
       <mat-icon>check_circle</mat-icon> Reset link sent! Check your inbox.
     </p>
+    }
   </form>
 </div>
+}
 
 <!-- LOGIN FOOTER -->
-<footer *ngIf="!isForgotPassword">
+@if (!isForgotPassword) {
+<footer>
   <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-stroked-button (click)="onSubmit()" [disabled]="!email || !password" type="button">
     <mat-icon>login</mat-icon> Login
   </button>
 </footer>
+}
 
 <!-- FORGOT PASSWORD FOOTER -->
-<footer *ngIf="isForgotPassword">
+@if (isForgotPassword) {
+<footer>
   <button mat-button type="button" (click)="isForgotPassword = false; resetEmailSent = false" style="margin-right: auto;">
     <mat-icon>arrow_back</mat-icon> Back to Login
   </button>
@@ -70,3 +79,4 @@
     <mat-icon>send</mat-icon> Send Reset Link
   </button>
 </footer>
+}
