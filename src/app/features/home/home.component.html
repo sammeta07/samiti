@@ -1,15 +1,50 @@
-<div class="home-page">
+<div class="home-page" [class.dashboard-mode]="isLoggedIn">
+  
+  <!-- 🧭 AFTER LOGIN ONLY: Left Side Vertical Menu Navigation Bar -->
+  @if (isLoggedIn) {
+    <nav class="vertical-navigation" aria-label="Main Navigation">
+      
+      <!-- ➕ Create Committee Button: Placed cleanly at the top of the menu list -->
+      <div class="nav-action-wrapper">
+        <button mat-flat-button type="button" class="create-committee-action-btn-sidebar" (click)="openCreateCommitteeDialog()">
+          <mat-icon>add</mat-icon> Create Committee
+        </button>
+      </div>
+
+      <ul class="nav-menu-list">
+        <li class="nav-item active">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+        </li>
+        <li class="nav-item">
+          <mat-icon>assignment_ind</mat-icon>
+          <span>My Registrations</span>
+        </li>
+        <li class="nav-item">
+          <mat-icon>gavel</mat-icon>
+          <span>My Committees</span>
+        </li>
+        <li class="nav-item">
+          <mat-icon>notifications</mat-icon>
+          <span>Invites</span>
+          <span class="nav-badge-alert">2</span>
+        </li>
+      </ul>
+    </nav>
+  }
+
   <div class="home-body">
-    <section class="groups-col" aria-label="Groups">
+    
+    <section class="groups-col" aria-label="Committees">
       <div class="col-search-bar">
         <div class="col-header-row">
           <div class="col-title-group">
-            <mat-icon class="col-icon">group</mat-icon>
-            <h2 class="col-title">Groups</h2>
+            <mat-icon class="col-icon">gavel</mat-icon>
+            <h2 class="col-title">Committees</h2>
           </div>
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
-            <input class="ssp-input" type="text" placeholder="Groups…" />
+            <input class="ssp-input" type="text" placeholder="Committees…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
             <select class="ssp-select" name="groupRadius" [(ngModel)]="selectedGroupRadius"
@@ -62,19 +97,35 @@
                         </span>
                       </div>
                       <span class="name-line"></span>
+                      
                       <div class="div4">
-                        <button mat-button type="button" class="groups-tab-action-btn">+ Join</button>
+                        @if (isLoggedIn) {
+                          <button mat-button type="button" class="groups-tab-action-btn" (click)="joinCommittee(group.group_id, $event)">
+                            + Join
+                          </button>
+                        }
                       </div>
+                      
                       <div class="div5">
-                        {{ group.name }}
+                        <div class="title-with-fav">
+                          <span>{{ group.name }}</span>
+                          
+                          @if (isLoggedIn) {
+                            <button mat-icon-button type="button" class="fav-heart-toggle-btn" (click)="toggleFavouriteCommittee(group.group_id, $event)">
+                              <mat-icon [class.is-fav-active]="group.is_favourite">
+                                {{ group.is_favourite ? 'favorite' : 'favorite_border' }}
+                              </mat-icon>
+                            </button>
+                          }
+                        </div>
                         <span class="name-line"></span>
                       </div>
                       <div class="div6">
                         <div class="group-id-pill">
-                          <span>Group ID: {{ group.group_id }}</span>
+                          <span>Committee ID: {{ group.group_id }}</span>
                           <button mat-icon-button type="button" class="copy-id-btn"
                             (click)="copyGroupId(group.group_id, $event, tooltip)" #tooltip="matTooltip"
-                            matTooltip="Copy Group ID" matTooltipPosition="above">
+                            matTooltip="Copy Committee ID" matTooltipPosition="above">
                             @if (copiedGroupId === group.group_id) {
                             <mat-icon class="copy-icon-success">done_all </mat-icon>
                             } @else {
@@ -92,30 +143,34 @@
                 </mat-expansion-panel>
                 }
               </mat-accordion>
-              @if (0) {
+              @if (groupList.length === 0) {
               <div class="col-empty">
-                <mat-icon>groups</mat-icon>
-                <p>No groups found with in {{selectedGroupRadius}} km.</p>
+                <mat-icon>gavel</mat-icon>
+                <p>No committees found within {{selectedGroupRadius}} km.</p>
               </div>
               }
             </div>
           </mat-tab>
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <mat-icon>star</mat-icon>
-              <span>Favourites</span>
-              <span class="tab-badge">0</span>
-            </ng-template>
-            <div class="groups-scroll">
-              <div class="col-empty">
-                <mat-icon>star_border</mat-icon>
-                <p>Mark groups as favourite to see them here.</p>
+
+          @if (isLoggedIn) {
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon>star</mat-icon>
+                <span>Favourites</span>
+                <span class="tab-badge">0</span>
+              </ng-template>
+              <div class="groups-scroll">
+                <div class="col-empty">
+                  <mat-icon>star_border</mat-icon>
+                  <p>Mark committees as favourite to track them here.</p>
+                </div>
               </div>
-            </div>
-          </mat-tab>
+            </mat-tab>
+          }
         </mat-tab-group>
       </div>
     </section>
+
     <aside class="sidebar-col" aria-label="Programs and Events">
       <div class="col-search-bar">
         <div class="col-header-row">
@@ -145,23 +200,27 @@
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>apps_outage</mat-icon>
-              <p>No programs available with in {{selectedProgramRadius}} Km.</p>
+              <p>No programs available within {{selectedProgramRadius}} Km.</p>
             </div>
           </div>
         </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>star</mat-icon>
-            <span>Favourites</span>
-            <span class="tab-badge">0</span>
-          </ng-template>
-          <div class="sidebar-scroll">
-            <div class="sidebar-empty">
-              <mat-icon>star_border</mat-icon>
-              <p>Mark programs as favourite to see them here.</p>
+
+        @if (isLoggedIn) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>star</mat-icon>
+              <span>Favourites</span>
+              <span class="tab-badge">0</span>
+            </ng-template>
+            <div class="sidebar-scroll">
+              <div class="sidebar-empty">
+                <mat-icon>star_border</mat-icon>
+                <p>Mark programs as favourite to see them here.</p>
+              </div>
             </div>
-          </div>
-        </mat-tab>
+          </mat-tab>
+        }
+
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>sports_cricket</mat-icon>
