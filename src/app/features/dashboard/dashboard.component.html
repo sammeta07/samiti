@@ -2,22 +2,24 @@
   <mat-toolbar color="primary" class="dashboard-toolbar">
     <span>Dashboard</span>
     <span class="spacer"></span>
-    <button mat-icon-button (click)="onLogout()" title="Logout">
-      <mat-icon>logout</mat-icon>
-    </button>
   </mat-toolbar>
 
   <div class="dashboard-content">
     <div class="welcome-section">
       <h1>Welcome to Your Dashboard</h1>
-      <p *ngIf="user">Hello, {{ user.name }}!</p>
-      <p *ngIf="!user">Welcome back!</p>
+@if (user) {
+        <p>Hello, {{ user.name }}!</p>
+      }
+      @if (!user) {
+        <p>Welcome back!</p>
+      }
     </div>
 
-    <div class="stats-grid" *ngIf="isLoggedIn">
-      <mat-card class="stat-card">
+@if (isLoggedIn) {
+      <div class="stats-grid">
+        <mat-card class="stat-card">
         <mat-card-header>
-          <mat-card-title>Groups</mat-card-title>
+<mat-card-title>Groups</mat-card-title>
           <mat-icon>groups</mat-icon>
         </mat-card-header>
         <mat-card-content>
@@ -43,14 +45,17 @@
         <mat-card-content>
           <p class="stat-number">0</p>
         </mat-card-content>
-      </mat-card>
-    </div>
+</mat-card>
+      </div>
+    }
 
-    <div class="login-prompt" *ngIf="!isLoggedIn">
-      <p>Please log in to view your dashboard.</p>
-      <button mat-raised-button color="primary" routerLink="/">
-        Go to Home
-      </button>
-    </div>
+@if (!isLoggedIn) {
+      <div class="login-prompt">
+        <p>Please log in to view your dashboard.</p>
+        <button mat-raised-button color="primary" routerLink="/">
+          Go to Home
+        </button>
+      </div>
+    }
   </div>
 </div>

@@ -6,7 +6,8 @@
 
   <span class="spacer"></span>
 
-  <!-- Global Search Pill -->
+<!-- Global Search Pill - Hidden after login -->
+  @if (!isLoggedIn()) {
   <div class="search-pill" [class.pill-active]="isSearchFocused()" role="search" aria-label="Search">
     <div class="pill-left">
       <mat-icon class="pill-search-icon" aria-hidden="true">search</mat-icon>
@@ -33,6 +34,7 @@
     </button>
     }
   </div>
+  }
 
   <span class="spacer"></span>
 
@@ -49,13 +51,23 @@
 
 <!-- Auth actions -->
   <div class="actions">
-    <button class="btn-outline" type="button" (click)="openRegisterDialog()">
-      <mat-icon aria-hidden="true">person_add</mat-icon>
-      Register
-    </button>
-<button class="btn-accent" type="button" (click)="openLoginDialog()">
-      <mat-icon aria-hidden="true">login</mat-icon>
-      Login
-    </button>
+    @if (!isLoggedIn()) {
+      <button class="btn-outline" type="button" (click)="openRegisterDialog()">
+        <mat-icon aria-hidden="true">person_add</mat-icon>
+        Register
+      </button>
+      <button class="btn-accent" type="button" (click)="openLoginDialog()">
+        <mat-icon aria-hidden="true">login</mat-icon>
+        Login
+      </button>
+    } @else {
+      <button class="btn-outline" type="button" matTooltip="Settings" aria-label="Settings">
+        <mat-icon aria-hidden="true">settings</mat-icon>
+      </button>
+      <button class="btn-accent" type="button" (click)="logout()">
+        <mat-icon aria-hidden="true">logout</mat-icon>
+        Logout
+      </button>
+    }
   </div>
 </mat-toolbar>

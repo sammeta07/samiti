@@ -43,9 +43,4 @@ export class DashboardComponent implements OnInit {
       name: 'User',
     };
   }
-
-  onLogout(): void {
-    this.dashboardService.logout();
-    window.location.reload();
-  }
 }

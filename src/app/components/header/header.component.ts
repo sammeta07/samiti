@@ -10,6 +10,7 @@ import { LocationCoords } from './header.models';
 import { NotifierService } from '../../shared/notifier/notifier.service';
 import { RegisterDialogComponent } from '../dialog/register/register.component';
 import { LoginDialogComponent } from '../dialog/login/login.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -31,11 +32,13 @@ export class HeaderComponent implements OnInit {
   isLoading = signal<boolean>(true);
   isSearchFocused = signal<boolean>(false);
   hasSearchText = signal<boolean>(false);
+  isLoggedIn = signal<boolean>(localStorage.getItem('is_logged_in') === 'true');
 
   @ViewChild('pillInput') pillInput!: ElementRef<HTMLInputElement>;
 
   private readonly notifier = inject(NotifierService);
   private dialog = inject(MatDialog);
+  private router = inject(Router);
 
   constructor(private headerService: HeaderService) {}
 
@@ -96,7 +99,7 @@ export class HeaderComponent implements OnInit {
     this.hasSearchText.set(value.length > 0);
   }
 
-clearSearch() {
+  clearSearch() {
     if (this.pillInput?.nativeElement) {
       this.pillInput.nativeElement.value = '';
       this.hasSearchText.set(false);
@@ -137,9 +140,22 @@ clearSearch() {
       disableClose: true,
       hasBackdrop: true,
       panelClass: 'slide-in-dialog'
-    }).afterClosed().subscribe(() => {
+    }).afterClosed().subscribe((result) => {
       document.body.classList.remove('dialog-open');
+      if (result === true) {
+        this.isLoggedIn.set(true);
+        localStorage.setItem('is_logged_in', 'true');
+      }
     });
+  }
+
+  logout(): void {
+    localStorage.removeItem('is_logged_in');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('base_role');
+    this.isLoggedIn.set(false);
+    this.router.navigate(['/home']);
   }
 
 }

@@ -1,10 +1,28 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { authGuard } from './core/guards/auth-guard'; // Is guard ka code niche hai
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: '**', redirectTo: '' },
+  // 1. Home / Landing Configuration
+  { 
+    path: '', 
+    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+    pathMatch: 'full' 
+  },
+  { 
+    path: 'home', 
+    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent) 
+  },
+
+  // 2. Secured Dashboard Loop with Lazy Loading & Bulletproof Auth Guard
+  { 
+    path: 'dashboard', 
+    loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [authGuard] // Protects route checkpoint completely
+  },
+
+  // 3. Fallback Route Wildcard Standard
+  { 
+    path: '**', 
+    redirectTo: '' 
+  },
 ];

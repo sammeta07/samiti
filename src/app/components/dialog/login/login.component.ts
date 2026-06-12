@@ -77,6 +77,10 @@ export class LoginDialogComponent implements OnInit {
       password: this.password.trim(),
     }).subscribe({
       next: (response) => {
+        console.log(response);
+        localStorage.setItem('base_role', response.data.base_role);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('email', response.data.email);
         this.dialogRef.close(true);
         this.router.navigate(['/dashboard']);
       },
