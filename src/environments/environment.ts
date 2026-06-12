@@ -8,16 +8,12 @@ export const environment = {
   // Centralized endpoints for easy maintenance
   endpoints: {
     auth: {
-    register: '/auth/register',
-    login: '/auth/login',
+      register: '/auth/register',
+      login: '/auth/login',
     },
-    groups: {
-      list: '/groups/list',
-      create: '/groups/create',
-    },
-    events: {
-      list: '/events/list',
-      create: '/events/create',
+    committees: {
+      create: '/committees/create',
+      list: '/committees/list',
     },
   }
 };

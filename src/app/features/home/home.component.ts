@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { GroupListApiResponse, GroupListRequestBackend, GroupListResponse } from './home.models';
+import { CommitteeListApiResponse, CommitteeListRequestBackend, CommitteeListResponse } from './home.models';
 import { HomeService } from './home.service';
 import { HeaderService } from '../../components/header/header.service';
 import { NotifierService } from '../../shared/notifier/notifier.service';
@@ -26,7 +26,6 @@ import { CreateCommitteeDialogComponent } from '../../components/dialog/create-c
     MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
-    CreateCommitteeDialogComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -43,10 +42,10 @@ export class HomeComponent implements AfterViewInit {
 
   userLocationCords = this.headerService.userLocationCords;
   radiusOptions: number[] = [1, 5, 10, 25, 100, 1000];
-  selectedGroupRadius: number = 5;
+  selectedCommitteeRadius: number = 5;
   selectedProgramRadius: number = 5;
-  groupList: any[] = []; // Changed type declaration signature mapping context safe state
-  copiedGroupId: string | null = null;
+  committeeList: any[] = []; // Changed type declaration signature mapping context safe state
+  copiedCommitteeId: string | null = null;
 
   // 🛠️ Reactive Computed Getter: Sync changes natively across header operations
   get isLoggedIn(): boolean {
@@ -57,7 +56,7 @@ export class HomeComponent implements AfterViewInit {
     effect(() => {
       const coords = this.userLocationCords();
       if (coords) {
-        this.getGroupListByRange();
+        this.getCommitteeListByRange();
       }
     });
   }
@@ -66,24 +65,24 @@ export class HomeComponent implements AfterViewInit {
 
   onRadiusChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectedGroupRadius = Number(target.value);
-    this.getGroupListByRange();
+    this.selectedCommitteeRadius = Number(target.value);
+    this.getCommitteeListByRange();
   }
 
-  getGroupListByRange() {
+  getCommitteeListByRange() {
     const locationCoords = this.userLocationCords();
     if (!locationCoords) return;
 
-    const body: GroupListRequestBackend = {
+    const body: CommitteeListRequestBackend = {
       lat: locationCoords.lat,
       long: locationCoords.long,
-      rangeKm: this.selectedGroupRadius,
+      rangeKm: this.selectedCommitteeRadius,
     };
 
-    this.homeService.getGroupListByRange(body).subscribe({
-      next: (res: GroupListApiResponse) => {
+    this.homeService.getCommitteeListByRange(body).subscribe({
+      next: (res: CommitteeListApiResponse) => {
         console.log('Committee list fetched successfully:', res);
-        this.groupList = res.data;
+        this.committeeList = res.data;
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -94,23 +93,20 @@ export class HomeComponent implements AfterViewInit {
   }
 
 // ➕ Action: Trigger Create Committee Popup Framework Checkpoint
-  openCreateCommitteeDialog(): void {
-    document.body.classList.add('dialog-open');
-    this.dialog.open(CreateCommitteeDialogComponent, {
-      position: {
-        right: '0',
-        top: '0'
-      },
-      height: '100%',
-      width: '50%',
-      autoFocus: true,
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'slide-in-dialog'
-    }).afterClosed().subscribe(() => {
-      document.body.classList.remove('dialog-open');
-    });
-  }
+openCreateCommitteeDialog(): void {
+  const dialogRef = this.dialog.open(CreateCommitteeDialogComponent, {
+    width: '440px', // Standard comfortable width matrix matching form image
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe((reloaded: boolean) => {
+    // If modal returns true (meaning successful data insertion occurred)
+    if (reloaded) {
+      console.log('Creation pipeline success detected. Running immediate view refresh sync...');
+      this.getCommitteeListByRange(); // Automatically re-hits list API to show newly made card live!
+    }
+  });
+}
 
   // 🛡️ Action: Send Request to join Selected operational matrix unit
   joinCommittee(committeeId: number, event: Event): void {
@@ -122,7 +118,7 @@ export class HomeComponent implements AfterViewInit {
   // ❤️ Action: Dynamic Local state switching controller mapping execution properties
   toggleFavouriteCommittee(committeeId: number, event: Event): void {
     event.stopPropagation(); // Avoid panel toggle conflict during interaction
-    const target = this.groupList.find(g => g.group_id === committeeId);
+    const target = this.committeeList.find(g => g.committee_id === committeeId);
     if (target) {
       target.is_favourite = !target.is_favourite;
       this.notifier.success(target.is_favourite ? 'Added to Favourites' : 'Removed from Favourites');
@@ -147,26 +143,26 @@ export class HomeComponent implements AfterViewInit {
     return description.length > 100 ? description.substring(0, 100) + '...' : description;
   }
 
-  getDistanceFromUser(group: any): string {
-    if (group?.distance == null) return '';
-    const distanceMeters = group.distance;
+  getDistanceFromUser(committee: any): string {
+    if (committee?.distance == null) return '';
+    const distanceMeters = committee.distance;
     if (distanceMeters < 1000) return `${Math.round(distanceMeters)} m`;
     return `${Number((distanceMeters / 1000).toFixed(1))} km`;
   }
   
-  async copyGroupId(groupId: string, event: Event, tooltip: MatTooltip): Promise<void> {
+  async copyCommitteeId(committeeId: string, event: Event, tooltip: MatTooltip): Promise<void> {
     event.stopPropagation();
     try {
-      this.copiedGroupId = groupId;
+      this.copiedCommitteeId = committeeId;
       this.cdr.detectChanges();
-      await navigator.clipboard.writeText(groupId);
+      await navigator.clipboard.writeText(committeeId);
 
       const originalMessage = tooltip.message;
-      tooltip.message = `Committee Id copied - ${groupId}`;
+      tooltip.message = `Committee Id copied - ${committeeId}`;
       tooltip.show();
 
       setTimeout(() => {
-        this.copiedGroupId = null;
+        this.copiedCommitteeId = null;
         this.cdr.detectChanges();
       }, 2000);
 
@@ -176,7 +172,7 @@ export class HomeComponent implements AfterViewInit {
       }, 2000);
     } catch (err) {
       this.notifier.error('Failed to copy Committee Id');
-      this.copiedGroupId = null;
+      this.copiedCommitteeId = null;
       this.cdr.detectChanges();
     }
   }

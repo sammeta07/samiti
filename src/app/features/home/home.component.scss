@@ -204,9 +204,9 @@
 }
 
 /* ═══════════════════════════════════════════════════════
-   LEFT column — 75%  — Groups
+   LEFT column — 75%  — Committees
    ═══════════════════════════════════════════════════════ */
-.groups-col {
+.committees-col {
   flex: 7;
   overflow: hidden;
   display: flex;
@@ -233,7 +233,7 @@
   width: 100%;
 }
 
-.col-title-group {
+.col-title-committee {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -325,7 +325,7 @@
   outline: none;
 }
 
-.groups-tabs-shell {
+.committees-tabs-shell {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -333,7 +333,7 @@
   overflow: hidden;
 }
 
-.groups-tabs {
+.committees-tabs {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -380,7 +380,7 @@
   }
 }
 
-.groups-tabs-header-actions {
+.committees-tabs-header-actions {
   position: absolute;
   top: 6px;
   right: 12px;
@@ -391,7 +391,7 @@
   pointer-events: auto;
 }
 
-.groups-tab-action-btn {
+.committees-tab-action-btn {
   min-width: auto !important;
   height: 30px !important;
   line-height: 30px !important;
@@ -429,7 +429,7 @@
   }
 }
 
-.groups-scroll {
+.committees-scroll {
   height: 100%;
   overflow-y: auto;
   padding: 0.75rem;
@@ -576,7 +576,7 @@ mat-expansion-panel p {
   height: 100%;
 }
 
-.group-logo {
+.committee-logo {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -584,7 +584,7 @@ mat-expansion-panel p {
   border: 1px solid var(--clr-border, #cbd5e1);
 }
 
-.group-logo-fallback {
+.committee-logo-fallback {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -703,7 +703,7 @@ mat-expansion-panel p {
   align-items: center;
 }
 
-.group-id-pill {
+.committee-id-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;

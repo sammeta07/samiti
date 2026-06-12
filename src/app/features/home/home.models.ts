@@ -2,27 +2,27 @@
 
 import { LocationCoords } from "../../components/header/header.models";
 
-export type ItemCategory = 'group' | 'event' | 'program';
+export type ItemCategory = 'committee' | 'event' | 'program';
 
 
 // Backend expects flat lat/long format
-export interface GroupListRequestBackend {
+export interface CommitteeListRequestBackend {
   lat: number;
   long: number;
   rangeKm: number;
 }
 
 
-// ── Backend Group List Response Models ──────────────────────────────────────
+// ── Backend Committee List Response Models ──────────────────────────────────────
 
-export interface GroupAdmin {
+export interface CommitteeAdmin {
   email: string;
   contactNumber: string;
 }
 
-export interface GroupListResponse {
+export interface CommitteeListResponse {
   id: number;
-  group_id: string;
+  committee_id: string;
   name: string;
   since: number;
   description: string | null;
@@ -31,16 +31,17 @@ export interface GroupListResponse {
   state_id: number;
   location_cords: LocationCoords;
   contact_numbers: string[];
-  admins: GroupAdmin[];
+  admins: CommitteeAdmin[];
   created_at: string;
   logo: string | null;
   distance: number; // Distance from user in meters
 }
 
-export interface GroupListApiResponse {
-  message: string;
+export interface CommitteeListApiResponse {
   statusCode: number;
-  data: GroupListResponse[];
+  status: string;
+  message: string;
+  data: any[]; // Links array directly to committeeList template binding loop
 }
 
 
