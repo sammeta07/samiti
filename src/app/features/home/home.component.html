@@ -1,10 +1,7 @@
 <div class="home-page" [class.dashboard-mode]="isLoggedIn">
   
-  <!-- 🧭 AFTER LOGIN ONLY: Left Side Vertical Menu Navigation Bar -->
   @if (isLoggedIn) {
     <nav class="vertical-navigation" aria-label="Main Navigation">
-      
-      <!-- ➕ Create Committee Button: Placed cleanly at the top of the menu list -->
       <div class="nav-action-wrapper">
         <button mat-flat-button type="button" class="create-committee-action-btn-sidebar" (click)="openCreateCommitteeDialog()">
           <mat-icon>add</mat-icon> Create Committee
@@ -35,30 +32,34 @@
 
   <div class="home-body">
     
-    <section class="committees-col" aria-label="Committees">
+    <section class="committees-col" aria-label="Committees Management Panel">
       <div class="col-search-bar">
         <div class="col-header-row">
-          <div class="col-title-committee">
+          <div class="col-title-container">
             <mat-icon class="col-icon">gavel</mat-icon>
             <h2 class="col-title">Committees</h2>
           </div>
+          
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
-            <input class="ssp-input" type="text" placeholder="Committees…" />
+            <input class="ssp-input" type="text" placeholder="Search Committees…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="committeeRadius" [(ngModel)]="selectedCommitteeRadius"
-              (change)="onRadiusChange($event)">
-              <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
+            <select class="ssp-select" name="committeeRadius" [(ngModel)]="selectedCommitteeRadius" (change)="onRadiusChange($event)">
+              @for (radius of radiusOptions; track radius) {
+                <option [value]="radius">{{ radius }} km</option>
+              }
             </select>
           </div>
         </div>
       </div>
+
       <div class="committees-tabs-shell">
         <div class="committees-tabs-header-actions">
           <button mat-button type="button" class="expand-collapse-btn" (click)="expandAll()">Expand All</button>
           <button mat-button type="button" class="expand-collapse-btn" (click)="collapseAll()">Collapse All</button>
         </div>
+
         <mat-tab-group class="committees-tabs" animationDuration="200ms">
           <mat-tab>
             <ng-template mat-tab-label>
@@ -66,88 +67,98 @@
               <span>In {{selectedCommitteeRadius}} km</span>
               <span class="tab-badge">{{ committeeList.length }}</span>
             </ng-template>
-            <div class="committees-scroll">
-              <mat-accordion #accordion [multi]="true">
-                @for (committee of committeeList; track committee.committee_id) {
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <div class="parent">
-                      <div class="div1">
-                        @if (committee.logo) {
-                        <img [src]="committee.logo" alt="{{ committee.name }} logo" class="committee-logo" />
-                        } @else {
-                        <div class="committee-logo-fallback">{{ committee.name.charAt(0).toUpperCase() }}</div>
-                        }
-                      </div>
-                      <div class="div2">
-                        <span class="pill since-pill">since - {{ committee.since }}</span>
-                        <span class="since-line"></span>
 
-                        <span class="pill contact-pill">
-                          <mat-icon>phone</mat-icon>
-                          {{ committee.contact_numbers.join(', ') }}
-                        </span>
-                      </div>
-                      <div class="div3">
-                        <mat-icon>place</mat-icon>
-                        {{ committee.area }}
-                        <span class="distance-pill">
-                          {{ getDistanceFromUser(committee) }}
-                          <mat-icon>near_me</mat-icon>
-                        </span>
-                      </div>
-                      <span class="name-line"></span>
-                      
-                      <div class="div4">
-                        @if (isLoggedIn) {
-                          <button mat-button type="button" class="committees-tab-action-btn" (click)="joinCommittee(committee.committee_id, $event)">
-                            + Join
-                          </button>
-                        }
-                      </div>
-                      
-                      <div class="div5">
-                        <div class="title-with-fav">
-                          <span>{{ committee.name }}</span>
-                          
-                          @if (isLoggedIn) {
-                            <button mat-icon-button type="button" class="fav-heart-toggle-btn" (click)="toggleFavouriteCommittee(committee.committee_id, $event)">
-                              <mat-icon [class.is-fav-active]="committee.is_favourite">
-                                {{ committee.is_favourite ? 'favorite' : 'favorite_border' }}
-                              </mat-icon>
-                            </button>
+            <div class="committees-scroll">
+              <mat-accordion #accordion [multi]="true" class="custom-clean-accordion">
+                @for (committee of committeeList; track committee.committee_id) {
+                  <mat-expansion-panel [hideToggle]="false">
+                    <mat-expansion-panel-header>
+                      <div class="committee-card-grid">
+                        
+                        <div class="card-logo-area">
+                          @if (committee.logo) {
+                            <img [src]="committee.logo" alt="{{ committee.name }} logo" class="committee-avatar" />
+                          } @else {
+                            <div class="committee-avatar-fallback">{{ committee.name.charAt(0).toUpperCase() }}</div>
                           }
                         </div>
-                        <span class="name-line"></span>
-                      </div>
-                      <div class="div6">
-                        <div class="committee-id-pill">
-                          <span>Committee ID: {{ committee.committee_id }}</span>
-                          <button mat-icon-button type="button" class="copy-id-btn"
-                            (click)="copyCommitteeId(committee.committee_id, $event, tooltip)" #tooltip="matTooltip"
-                            matTooltip="Copy Committee ID" matTooltipPosition="above">
-                            @if (copiedCommitteeId === committee.committee_id) {
-                            <mat-icon class="copy-icon-success">done_all </mat-icon>
-                            } @else {
-                            <mat-icon>content_copy</mat-icon>
+
+                        <div class="card-main-info-area">
+                          <div class="card-title-row">
+                            <h3 class="committee-display-name">{{ committee.name }}</h3>
+                            @if (isLoggedIn) {
+                              <button mat-icon-button type="button" class="fav-heart-toggle-btn" (click)="toggleFavouriteCommittee(committee.committee_id, $event)">
+                                <mat-icon [class.is-fav-active]="committee.is_favourite">
+                                  {{ committee.is_favourite ? 'favorite' : 'favorite_border' }}
+                                </mat-icon>
+                              </button>
                             }
-                          </button>
+                          </div>
+
+                          <div class="card-location-row">
+                            <mat-icon class="geo-pin-icon">place</mat-icon>
+                            <span class="location-text-trim" [matTooltip]="committee.area" matTooltipPosition="above">{{ committee.area }}</span>
+                          </div>
+
+                          <div class="card-badges-row">
+                            <span class="meta-pill text-muted-badge">Since {{ committee.since }}</span>
+                            <span class="badge-separator-dot"></span>
+                            <span class="meta-pill phone-contact-badge">
+                              <mat-icon>phone</mat-icon>
+                              {{ committee.contact_numbers.join(', ') }}
+                            </span>
+                          </div>
                         </div>
+
+                        <div class="card-actions-identity-area">
+                          <div class="identity-top-row">
+                            <div class="committee-id-pill">
+                              <span>ID: {{ committee.committee_id }}</span>
+                              <button mat-icon-button type="button" class="copy-id-btn"
+                                (click)="copyCommitteeId(committee.committee_id, $event, tooltip)" #tooltip="matTooltip"
+                                matTooltip="Copy Committee ID" matTooltipPosition="above">
+                                @if (copiedCommitteeId === committee.committee_id) {
+                                  <mat-icon class="copy-icon-success">done_all</mat-icon>
+                                } @else {
+                                  <mat-icon>content_copy</mat-icon>
+                                }
+                              </button>
+                            </div>
+                          </div>
+
+                          <div class="proximity-display-row">
+                            <span class="spatial-distance-metric">{{ getDistanceFromUser(committee) }}</span>
+                            <mat-icon class="compass-pointer-icon">near_me</mat-icon>
+                          </div>
+
+                          <div class="join-action-row">
+                            @if (isLoggedIn) {
+                              <button mat-flat-button type="button" class="committee-join-flat-btn" (click)="joinCommittee(committee.committee_id, $event)">
+                                <mat-icon>add</mat-icon> Join
+                              </button>
+                            }
+                          </div>
+                        </div>
+
+                        <div class="card-paragraph-summary-area">
+                          <p class="summary-paragraph-text">{{ getTruncatedDescription(committee.description) }}</p>
+                        </div>
+
                       </div>
-                      <div class="div7">
-                        {{ getTruncatedDescription(committee.description) }}
-                      </div>
+                    </mat-expansion-panel-header>
+
+                    <div class="expansion-inner-content-wrapper">
+                      content - mat-tab come here
                     </div>
-                  </mat-expansion-panel-header>
-                  content - mat-tab come here
-                </mat-expansion-panel>
+                  </mat-expansion-panel>
                 }
               </mat-accordion>
+
               @if (committeeList.length === 0) {
-              <div class="col-empty">
-                <mat-icon>gavel</mat-icon>
-                <p>No committees found within {{selectedCommitteeRadius}} km.</p>
-              </div>
+                <div class="col-empty">
+                  <mat-icon>gavel</mat-icon>
+                  <p>No committees found within {{selectedCommitteeRadius}} km.</p>
+                </div>
               }
             </div>
           </mat-tab>
@@ -171,25 +182,28 @@
       </div>
     </section>
 
-    <aside class="sidebar-col" aria-label="Programs and Events">
+    <aside class="sidebar-col" aria-label="Programs and Events Sidebar">
       <div class="col-search-bar">
         <div class="col-header-row">
-          <div class="col-title-committee">
+          <div class="col-title-container">
             <mat-icon class="col-icon">apps</mat-icon>
             <h2 class="col-title">Programs</h2>
           </div>
+          
           <div class="section-search-pill">
             <mat-icon class="ssp-icon">search</mat-icon>
-            <input class="ssp-input" type="text" placeholder="Programs…" />
+            <input class="ssp-input" type="text" placeholder="Search Programs…" />
             <span class="ssp-divider"></span>
             <mat-icon class="ssp-km-icon">radar</mat-icon>
-            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedCommitteeRadius"
-              (change)="onRadiusChange($event)">
-              <option *ngFor="let radius of radiusOptions" [value]="radius">{{ radius }} km</option>
+            <select class="ssp-select" name="programRadius" [(ngModel)]="selectedCommitteeRadius" (change)="onRadiusChange($event)">
+              @for (radius of radiusOptions; track radius) {
+                <option [value]="radius">{{ radius }} km</option>
+              }
             </select>
           </div>
         </div>
       </div>
+
       <mat-tab-group class="sidebar-tabs" animationDuration="200ms">
         <mat-tab>
           <ng-template mat-tab-label>
@@ -200,7 +214,7 @@
           <div class="sidebar-scroll">
             <div class="sidebar-empty">
               <mat-icon>apps_outage</mat-icon>
-              <p>No programs available within {{selectedProgramRadius}} Km.</p>
+              <p>No programs available within {{selectedCommitteeRadius}} km.</p>
             </div>
           </div>
         </mat-tab>
@@ -233,6 +247,7 @@
             </div>
           </div>
         </mat-tab>
+
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>sports_soccer</mat-icon>
@@ -247,5 +262,6 @@
         </mat-tab>
       </mat-tab-group>
     </aside>
+
   </div>
 </div>
