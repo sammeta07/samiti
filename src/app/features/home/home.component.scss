@@ -8,7 +8,7 @@
   width: 100%;
 
   &.dashboard-mode {
-    flex-direction: row; 
+    flex-direction: row;
   }
 }
 
@@ -29,7 +29,7 @@
   border-right: 1px solid var(--clr-border, #e2e8f0);
   flex-shrink: 0;
   height: 100%;
-  padding-top: 24px; 
+  padding-top: 24px;
 }
 
 .nav-action-wrapper {
@@ -39,19 +39,19 @@
 }
 
 .create-committee-action-btn-sidebar {
-  width: 100% !important; 
-  height: 42px !important; 
+  width: 100% !important;
+  height: 42px !important;
   border-radius: 8px !important;
-  background: #22c55e !important; 
+  background: #22c55e !important;
   color: #ffffff !important;
   box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.2);
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important; 
+  gap: 8px !important;
   font-size: 0.82rem !important;
   font-weight: 700 !important;
-  white-space: nowrap !important; 
+  white-space: nowrap !important;
   overflow: hidden;
 
   ::ng-deep .mdc-button__label {
@@ -65,7 +65,7 @@
     font-size: 1.15rem !important;
     width: 1.15rem !important;
     height: 1.15rem !important;
-    margin: 0 !important; 
+    margin: 0 !important;
   }
 
   &:hover {
@@ -110,8 +110,10 @@
     background: var(--clr-accent, #f97316);
     border-radius: 0 999px 999px 0;
     margin-right: 12px;
-    
-    mat-icon { color: #ffffff !important; }
+
+    mat-icon {
+      color: #ffffff !important;
+    }
   }
 }
 
@@ -219,7 +221,9 @@
   color: var(--clr-text-dark, #0f172a);
   outline: none;
 
-  &::placeholder { color: var(--clr-text-light, #94a3b8); }
+  &::placeholder {
+    color: var(--clr-text-light, #94a3b8);
+  }
 }
 
 .ssp-divider {
@@ -258,7 +262,8 @@
   overflow: hidden;
 }
 
-.committees-tabs, .sidebar-tabs {
+.committees-tabs,
+.sidebar-tabs {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -270,7 +275,11 @@
       border-bottom: 2px solid var(--clr-border, #e2e8f0);
       flex-shrink: 0;
     }
-    .mdc-tab { flex: 0 0 150px !important; }
+
+    .mdc-tab {
+      flex: 0 0 150px !important;
+    }
+
     .mdc-tab__content {
       display: flex !important;
       align-items: center !important;
@@ -278,12 +287,28 @@
       justify-content: flex-start !important;
       padding-left: 8px !important;
     }
-    .mat-mdc-tab-indicator-container .mat-mdc-tab-indicator { border-color: var(--clr-accent, #f97316) !important; }
-    .mat-mdc-tab.mdc-tab--active {
-      .mdc-tab__text-label, mat-icon { color: var(--clr-accent, #f97316) !important; }
+
+    .mat-mdc-tab-indicator-container .mat-mdc-tab-indicator {
+      border-color: var(--clr-accent, #f97316) !important;
     }
-    .mat-mdc-tab-body-wrapper { flex: 1; overflow: hidden; }
-    .mat-mdc-tab-body-content { height: 100%; overflow: hidden; }
+
+    .mat-mdc-tab.mdc-tab--active {
+
+      .mdc-tab__text-label,
+      mat-icon {
+        color: var(--clr-accent, #f97316) !important;
+      }
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .mat-mdc-tab-body-content {
+      height: 100%;
+      overflow: hidden;
+    }
   }
 }
 
@@ -320,7 +345,8 @@
   }
 }
 
-.committees-scroll, .sidebar-scroll {
+.committees-scroll,
+.sidebar-scroll {
   height: 100%;
   overflow-y: auto;
   padding: 0.75rem;
@@ -343,7 +369,8 @@
 }
 
 /* Empty States Containers Layout Configuration */
-.col-empty, .sidebar-empty {
+.col-empty,
+.sidebar-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -358,7 +385,12 @@
     width: 2.5rem;
     height: 2.5rem;
   }
-  p { font-size: 0.86rem; margin: 0; color: #64748b; }
+
+  p {
+    font-size: 0.86rem;
+    margin: 0;
+    color: #64748b;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -389,9 +421,14 @@
     padding: 14px 18px !important;
     height: auto !important;
     background: transparent !important;
-    
-    &:hover { background: transparent !important; }
-    .mat-expansion-indicator { margin-top: -12px; }
+
+    &:hover {
+      background: transparent !important;
+    }
+
+    .mat-expansion-indicator {
+      margin-top: -12px;
+    }
   }
 }
 
@@ -409,7 +446,7 @@
 .committee-avatar {
   width: 48px;
   height: 48px;
-  border-radius: 10px; 
+  border-radius: 10px;
   object-fit: cover;
   border: 1px solid #e2e8f0;
 }
@@ -453,12 +490,15 @@
   padding: 0 !important;
   color: #94a3b8 !important;
 
-  &:hover { color: #ef4444 !important; }
+  &:hover {
+    color: #ef4444 !important;
+  }
+
   mat-icon {
     font-size: 1.15rem;
     width: 1.15rem;
     height: 1.15rem;
-    
+
     &.is-fav-active {
       color: #ef4444 !important;
       animation: heartBeat 0.3s ease-in-out;
@@ -467,9 +507,17 @@
 }
 
 @keyframes heartBeat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .card-location-row {
@@ -478,7 +526,7 @@
   gap: 4px;
   color: #475569;
   font-size: 0.82rem;
-  
+
   .geo-pin-icon {
     font-size: 0.95rem;
     width: 0.95rem;
@@ -508,7 +556,11 @@
   border-radius: 4px;
 }
 
-.text-muted-badge { background: #f1f5f9; color: #475569; }
+.text-muted-badge {
+  background: #f1f5f9;
+  color: #475569;
+}
+
 .phone-contact-badge {
   background: rgba(34, 197, 94, 0.06);
   color: #16a34a;
@@ -516,7 +568,11 @@
   align-items: center;
   gap: 3px;
 
-  mat-icon { font-size: 0.75rem; width: 0.75rem; height: 0.75rem; }
+  mat-icon {
+    font-size: 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
 }
 
 .badge-separator-dot {
@@ -534,26 +590,29 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 5px;
-  padding-right: 10px; /* 🚀 Yeh property native arrow se right-wing data ko perfect door rakhegi */
+  padding-right: 10px;
+  /* 🚀 Yeh property native arrow se right-wing data ko perfect door rakhegi */
   box-sizing: border-box;
 }
 
 ::ng-deep .mat-expansion-panel-header {
-    padding: 14px 18px !important;
-    height: auto !important;
+  padding: 14px 18px !important;
+  height: auto !important;
+  background: transparent !important;
+
+  // 🛠️ FIX: Center position se hata kar native content aur indicator dono ko strictly TOP axis vertical line par lock kiya
+  display: flex !important;
+  align-items: flex-start !important;
+
+  &:hover {
     background: transparent !important;
-    
-    // 🛠️ FIX: Center position se hata kar native content aur indicator dono ko strictly TOP axis vertical line par lock kiya
-    display: flex !important;
-    align-items: flex-start !important; 
-    
-    &:hover { background: transparent !important; }
-    
-    // 🚀 Arrow Button Matrix Control Indicator: Pushes the native chevron to line up cleanly with our top ID pill row
-    .mat-expansion-indicator { 
-      margin-top: 2px !important; 
-    }
   }
+
+  // 🚀 Arrow Button Matrix Control Indicator: Pushes the native chevron to line up cleanly with our top ID pill row
+  .mat-expansion-indicator {
+    margin-top: 2px !important;
+  }
+}
 
 .committee-id-pill {
   background: #f8fafc;
@@ -574,11 +633,21 @@
   line-height: 20px !important;
   padding: 0 !important;
   color: #94a3b8 !important;
-  &:hover { color: var(--clr-accent, #f97316) !important; }
-  mat-icon { font-size: 0.85rem; width: 0.85rem; height: 0.85rem; }
+
+  &:hover {
+    color: var(--clr-accent, #f97316) !important;
+  }
+
+  mat-icon {
+    font-size: 0.85rem;
+    width: 0.85rem;
+    height: 0.85rem;
+  }
 }
 
-.copy-icon-success { color: #22c55e !important; }
+.copy-icon-success {
+  color: #22c55e !important;
+}
 
 .proximity-display-row {
   display: flex;
@@ -588,26 +657,42 @@
   font-weight: 700;
   font-size: 0.78rem;
 
-  .compass-pointer-icon { font-size: 0.85rem; width: 0.85rem; height: 0.85rem; }
+  .compass-pointer-icon {
+    font-size: 0.85rem;
+    width: 0.85rem;
+    height: 0.85rem;
+  }
 }
 
 .committee-join-flat-btn {
-  background: #0f172a !important;
+  /* 🚀 CHANGE: Swapped flat dark with a modern premium blue interactive accent palette */
+  background: #2563eb !important; 
   color: #ffffff !important;
-  height: 26px !important;
-  line-height: 26px !important;
-  padding: 0 10px !important;
-  font-size: 0.72rem !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  padding: 0 14px !important; // Slightly improved padding side boundaries
+  font-size: 0.74rem !important;
   font-weight: 700 !important;
-  border-radius: 5px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15) !important;
+  transition: all 0.2s ease-in-out !important;
 
   mat-icon {
-    font-size: 0.8rem !important;
-    width: 0.8rem !important;
-    height: 0.8rem !important;
-    margin-right: 1px !important;
+    font-size: 0.85rem !important;
+    width: 0.85rem !important;
+    height: 0.85rem !important;
+    margin-right: 2px !important;
   }
-  &:hover { background: var(--clr-accent, #f97316) !important; }
+
+  &:hover {
+    background: #1d4ed8 !important; // Deep ocean blue on active hover state
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.25) !important;
+    transform: translateY(-1px); // Subtle premium lift motion feedback
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 /* Bottom Description Section */
@@ -622,6 +707,14 @@
   color: #64748b;
   line-height: 1.4;
   margin: 0;
+
+  /* 🚀 Same style as committee.area for clean single-line truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  /* Pure row block ki width ke mutabik trim ho jayega */
+  display: block;
 }
 
 .expansion-inner-content-wrapper {
